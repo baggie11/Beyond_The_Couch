@@ -37,7 +37,8 @@ const Navigation = () => {
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (isMenuOpen && !event.target.closest('.mobile-menu-container')) {
+      if (isMenuOpen && !event.target.closest('.mobile-menu-container') && 
+          !event.target.closest('.menu-toggle-btn')) {
         setIsMenuOpen(false);
       }
     };
@@ -131,7 +132,7 @@ const Navigation = () => {
       {/* Mobile menu button */}
       <button
         onClick={toggleMenu}
-        className={`md:hidden fixed top-4 right-4 z-50 p-3 rounded-full transition-all duration-300 ${isMenuOpen ? 'bg-[#fe89aa]' : 'bg-[#5c6650]'} shadow-lg`}
+        className="menu-toggle-btn md:hidden fixed top-4 right-4 z-50 p-3 rounded-full transition-all duration-300 bg-[#5c6650] hover:bg-[#4a5340] shadow-lg"
         aria-label="Toggle menu"
       >
         <svg
@@ -154,40 +155,46 @@ const Navigation = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"></div>
       )}
 
-      {/* Navigation container - now properly centered */}
-      <nav 
-        className={`mobile-menu-container fixed md:fixed top-0 md:top-4 left-[342px] -translate-x-1/2 w-full md:w-auto md:min-w-[600px] z-40 transition-all duration-300
-          ${isMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
-          ${isScrolled ? 'md:shadow-lg' : 'md:shadow-md'}
-        `}
-      >
-        <div 
-          className={`flex flex-col md:flex-row items-center justify-center w-full h-full rounded-none md:rounded-xl bg-[#5c6650] p-4 md:px-8 md:py-2 gap-2
-            ${isMenuOpen ? 'h-screen md:h-16 w-3/4 sm:w-1/2 md:w-full' : 'h-16'}
+      {/* Navigation container - properly centered */}
+      <div className="fixed top-0 left-0 right-0 z-40 flex justify-center pointer-events-none w-full">
+        <nav 
+          className={`mobile-menu-container pointer-events-auto transition-all duration-300
+            ${isScrolled ? 'md:shadow-lg' : 'md:shadow-md'}
+            ${isMenuOpen ? 'right-0' : '-right-full md:right-auto'}
+            md:relative md:w-auto md:min-w-[800px] md:mt-4 md:px-0
+            fixed top-0 h-[20px] w-3/4 max-w-xs
           `}
         >
-          {/* Centered navigation items */}
-          <div className="flex flex-col md:flex-row items-center justify-center w-full md:w-auto gap-2">
-            <NavButton targetId="home" onClick={handleHomeClick}>Home</NavButton>
-            <NavButton targetId="about">About Us</NavButton>
-            <NavButton href="/events">Events</NavButton>
-            <NavButton href="/projects">Projects</NavButton>
-            <NavButton targetId="team">Team</NavButton>
-            <NavButton targetId="gallery">Gallery</NavButton>
-            <NavButton href="/contact">Contact Us</NavButton>
-          </div>
+          <div 
+            className={`flex flex-col md:flex-row items-center justify-center w-full h-full 
+              md:rounded-xl bg-[#5c6650] md:px-8 md:py-2 gap-2
+              ${isMenuOpen ? 'shadow-lg' : ''}
+              p-6 md:h-auto
+            `}
+          >
+            {/* Navigation items */}
+            <div className="flex flex-col md:flex-row items-center justify-center w-full">
+              <NavButton targetId="home" onClick={handleHomeClick}>Home</NavButton>
+              <NavButton targetId="about">About Us</NavButton>
+              <NavButton href="/events">Events</NavButton>
+              <NavButton href="/projects">Projects</NavButton>
+              <NavButton targetId="team">Team</NavButton>
+              <NavButton targetId="gallery">Gallery</NavButton>
+              <NavButton href="/contact">Contact Us</NavButton>
+            </div>
 
-          {/* Join Us button */}
-          <div className="mt-4 md:mt-0 md:ml-4 w-full md:w-auto">
-            <NavButton 
-              className="bg-[#fe89aa] hover:bg-[#e67899] text-white font-bold hover:scale-105 w-full md:w-[120px]"
-              href="/joinus"
-            >
-              Join Us
-            </NavButton>
+            {/* Join Us button */}
+            <div className="mt-6 md:mt-0 md:ml-[20px] w-full ">
+              <NavButton 
+                className="bg-[#fe89aa] hover:bg-[#e67899] text-white font-bold hover:scale-105 w-full "
+                href="/joinus"
+              >
+                Join Us
+              </NavButton>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </>
   );
 };

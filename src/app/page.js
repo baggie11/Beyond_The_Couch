@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className="relative">
       {/* Navbar with fixed positioning to stay visible on scroll */}
-      <div className="fixed top-0 left-[305px] w-full z-10" >
+      <div className="fixed top-0 left-0  w-full z-10" >
         <Button />
       </div>
       

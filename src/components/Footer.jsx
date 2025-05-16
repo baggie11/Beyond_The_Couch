@@ -128,7 +128,7 @@ function SocialIcon({ icon }) {
   return (
     <a
       href={iconData.href}
-      className="text-[#fe89aa] hover:text-[#fe89aa] transition-colors"
+      className="text-[#5c6650] hover:text-[#5c6650] transition-colors"
       target={icon === 'email' || icon === 'phone' ? '_self' : '_blank'}
       rel="noopener noreferrer"
       aria-label={icon}

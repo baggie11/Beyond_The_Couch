@@ -239,39 +239,7 @@ const WhoWeAre = () => {
           </motion.div>
         </motion.div>
         
-        {/* Stats section */}
-        <motion.div 
-          className="grid grid-cols-2 md:grid-cols-4 gap-4"
-          initial="hidden"
-          whileInView="visible"
-          variants={containerVariants}
-          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
-        >
-          {[
-            { value: "5+", label: "Years of Experience" },
-            { value: "100+", label: "Events Organized" },
-            { value: "50+", label: "Team Members" },
-            { value: "10k+", label: "Community Reach" }
-          ].map((stat, index) => (
-            <motion.div 
-              key={index}
-              className="p-6 bg-white rounded-lg shadow-md text-center border-t-4 border-[#fe89aa] hover:shadow-lg transition-shadow"
-              variants={itemVariants}
-              custom={index}
-              whileHover={{ y: -5 }}
-            >
-              <motion.h3 
-                className="text-3xl sm:text-4xl font-bold text-[#5c6650] mb-2"
-                initial={{ scale: 0.9 }}
-                whileInView={{ scale: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                {stat.value}
-              </motion.h3>
-              <p className="text-[#5c6650]">{stat.label}</p>
-            </motion.div>
-          ))}
-        </motion.div>
+       
       </div>
     </motion.section>
   );

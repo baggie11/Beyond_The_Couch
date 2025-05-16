@@ -7,8 +7,7 @@ const events = [
     id: 1,
     title: "Volfest Delhi",
     description: "Our first official event and it was at JLN Stadium, Delhi to celebrate volunteerism with so many other organisations 😽‼️ we had the best time- we baked, we painted, we wrote letters, made bows, and SO much more 🧚‍♀️💘",
-    date: "May 15, 2025",
-    time: "9:00 AM - 5:00 PM",
+    date: "May 14-15, 2025",
     location: "JLN Stadium, Delhi",
     images: [
       "/images/volfest/pic1.jpg",
@@ -174,10 +173,7 @@ function EventCard({ event, onImageClick }) {
                 </div>
                 
                 <div className="flex justify-between items-center mt-auto pt-4 border-t border-[#e88fac]/20">
-                  <div className="flex items-center text-sm text-[#505c4a]">
-                    <Users className="h-4 w-4 mr-1 text-[#e88fac]" />
-                    <span>{event.attendees} attending</span>
-                  </div>
+                  
                   <button className="flex items-center text-sm font-medium text-[#e88fac] hover:text-[#d87a9c] transition-colors">
                     View Details
                     <ChevronDown className="h-4 w-4 ml-1" />

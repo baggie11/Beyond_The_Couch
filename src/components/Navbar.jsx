@@ -156,7 +156,7 @@ const Navigation = () => {
 
       {/* Navigation container - now properly centered */}
       <nav 
-        className={`mobile-menu-container fixed md:fixed top-0 md:top-4 left-[350px] -translate-x-1/2 w-full md:w-auto md:min-w-[600px] z-40 transition-all duration-300
+        className={`mobile-menu-container fixed md:fixed top-0 md:top-4 left-[342px] -translate-x-1/2 w-full md:w-auto md:min-w-[600px] z-40 transition-all duration-300
           ${isMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
           ${isScrolled ? 'md:shadow-lg' : 'md:shadow-md'}
         `}

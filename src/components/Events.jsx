@@ -6,18 +6,16 @@ const events = [
   {
     id: 1,
     title: "Volfest Delhi",
-    description: "Join us for our biggest event of the year featuring keynote speakers, workshops, and networking opportunities. Experience the vibrant culture of Delhi while engaging with industry leaders and like-minded professionals.",
+    description: "Our first official event and it was at JLN Stadium, Delhi to celebrate volunteerism with so many other organisations 😽‼️ we had the best time- we baked, we painted, we wrote letters, made bows, and SO much more 🧚‍♀️💘",
     date: "May 15, 2025",
     time: "9:00 AM - 5:00 PM",
-    location: "Grand Convention Center, Delhi",
-    category: "Conference",
+    location: "JLN Stadium, Delhi",
     images: [
       "/images/volfest/pic1.jpg",
       "/images/volfest/pic2.jpg",
       "/images/volfest/pic3.jpg"
     ],
     color: "bg-[#e88fac]",
-    attendees: 230
   },
  
 ];

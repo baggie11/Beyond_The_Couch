@@ -70,7 +70,7 @@ const Button = () => {
       {/* Navbar Container */}
       <div className={`${isMenuOpen ? 'fixed inset-0 bg-black bg-opacity-50 z-40' : ''}`}>
         <div 
-          className={`flex flex-col md:flex-row items-center mt-0 md:mt-[50px] justify-center md:justify-around w-full md:w-[900px] h-auto md:h-16 rounded-none md:rounded-[10px] bg-[#5c6650] z-[50] p-4 md:p-0 gap-4 md:gap-0
+          className={`flex flex-col md:flex-row items-center mt-0 md:mt-[20px] justify-center md:justify-around w-full md:w-[900px] h-auto md:h-16 rounded-none md:rounded-[10px] bg-[#5c6650] z-[50] p-4 md:p-0 gap-4 md:gap-0
           ${isMenuOpen ? 'fixed inset-y-0 left-0 w-3/4 bg-[#5c6650] shadow-lg overflow-y-auto transition-transform duration-300 ease-in-out transform translate-x-0' : 'hidden md:flex'}`}
         >
           <IconButton targetId="home" onClick={handleHomeClick}>Home</IconButton>

@@ -1,3 +1,4 @@
+"use client"
 import { useState, useEffect, useRef } from 'react';
 import { Clock, MapPin, Users, ChevronDown, ChevronUp, Maximize2 } from 'lucide-react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -32,7 +33,7 @@ const events = [
   {
     id: 3,
     title: "Mumbai canvas painting fundraiser",
-    description: "Our Canvas Painting Fundraiser marked the launch event of our initiative and was a heartwarming success. I’m thrilled to share that we raised over ₹17,700, all of which will directly support our cause.This event was held in collaboration with Antigone, our sister organization, and brought together individuals of all age groups in a vibrant and inclusive environment. From young kids to adults, everyone was deeply engrossed in painting their canvases, expressing creativity and compassion in equal measure. What made the day truly special was that it wasn't just about the art people created—it was about the impact they contributed to. The joy, unity, and generosity on display reflected the spirit of our mission and set a beautiful tone for future events.",
+    description: "Our Canvas Painting Fundraiser marked the launch event of our initiative and was a heartwarming success. I'm thrilled to share that we raised over ₹17,700, all of which will directly support our cause.This event was held in collaboration with Antigone, our sister organization, and brought together individuals of all age groups in a vibrant and inclusive environment. From young kids to adults, everyone was deeply engrossed in painting their canvases, expressing creativity and compassion in equal measure. What made the day truly special was that it wasn't just about the art people created—it was about the impact they contributed to. The joy, unity, and generosity on display reflected the spirit of our mission and set a beautiful tone for future events.",
     date: "May 10, 2025",
     location: "Poco Loco, Khar",
     media: [
@@ -98,9 +99,9 @@ function MediaViewer({ mediaItems, initialIndex = 0, onClose }) {
             e.stopPropagation();
             prevMedia();
           }}
-          className="absolute left-4 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
+          className="absolute left-4 p-2 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
         >
-          <ChevronLeft className="h-6 w-6 text-white" />
+          <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
         </button>
         
         <div className="w-full h-full flex items-center justify-center">
@@ -126,18 +127,18 @@ function MediaViewer({ mediaItems, initialIndex = 0, onClose }) {
             e.stopPropagation();
             nextMedia();
           }}
-          className="absolute right-4 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
+          className="absolute right-4 p-2 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
         >
-          <ChevronRight className="h-6 w-6 text-white" />
+          <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
         </button>
       </div>
       
-      <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2">
+      <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-2">
         {mediaItems.map((_, idx) => (
           <button
             key={idx}
             onClick={() => setCurrentIndex(idx)}
-            className={`w-3 h-3 rounded-full transition-all ${currentIndex === idx ? 'bg-[#e88fac]' : 'bg-white/30'}`}
+            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all ${currentIndex === idx ? 'bg-[#e88fac]' : 'bg-white/30'}`}
           />
         ))}
       </div>
@@ -167,29 +168,29 @@ function EventCard({ event, onMediaClick }) {
   return (
     <div 
       id={`event-${event.id}`}
-      className="w-full max-w-6xl mx-auto mb-12"
+      className="w-full max-w-6xl mx-auto mb-8 sm:mb-12"
     >
       <div 
-        className={`group relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 ${isExpanded ? 'shadow-2xl' : 'shadow-lg hover:shadow-xl'}`}
+        className={`group relative rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 ${isExpanded ? 'shadow-2xl' : 'shadow-lg hover:shadow-xl'}`}
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <div className="absolute inset-0 rounded-3xl p-[2px] bg-gradient-to-br from-[#e88fac] to-[#505c4a] opacity-70 group-hover:opacity-100 transition-opacity duration-300 z-0"></div>
+        <div className="absolute inset-0 rounded-2xl sm:rounded-3xl p-[2px] bg-gradient-to-br from-[#e88fac] to-[#505c4a] opacity-70 group-hover:opacity-100 transition-opacity duration-300 z-0"></div>
         
-        <div className={`relative bg-white rounded-[calc(1.5rem-2px)] overflow-hidden transition-all duration-500 ease-out ${
+        <div className={`relative bg-white rounded-[calc(1rem-2px)] sm:rounded-[calc(1.5rem-2px)] overflow-hidden transition-all duration-500 ease-out ${
           isExpanded ? 'scale-105' : 'group-hover:scale-[1.02]'
         }`}>
           {/* Collapsed View */}
           <div className={`transition-all duration-500 ease-out ${
             isExpanded ? 'opacity-0 absolute inset-0' : 'opacity-100'
           }`}>
-            <div className="flex flex-col md:flex-row h-full">
+            <div className="flex flex-col md:flex-row h-[300px]">
               {/* Event Media */}
-              <div className="relative md:w-1/3 h-64 md:h-auto overflow-hidden bg-gray-100">
+              <div className="relative w-full md:w-1/3  sm:h-64 md:h-auto overflow-hidden bg-gray-100">
                 {event.media[0].type === 'image' ? (
                   <img 
                     src={event.media[0].url} 
                     alt={event.title}
-                    className="w-full h-[200px] object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     onClick={(e) => {
                       e.stopPropagation();
                       onMediaClick(event.id, 0);
@@ -197,7 +198,7 @@ function EventCard({ event, onMediaClick }) {
                   />
                 ) : (
                   <div 
-                    className="relative w-full h-[200px] overflow-hidden"
+                    className="relative w-full h-full overflow-hidden"
                     onClick={(e) => {
                       e.stopPropagation();
                       onMediaClick(event.id, 0);
@@ -209,8 +210,8 @@ function EventCard({ event, onMediaClick }) {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                      <div className="w-12 h-12 rounded-full bg-white/80 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#e88fac" className="w-6 h-6 ml-1">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/80 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#e88fac" className="w-5 h-5 sm:w-6 sm:h-6 ml-1">
                           <path d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
                         </svg>
                       </div>
@@ -219,8 +220,8 @@ function EventCard({ event, onMediaClick }) {
                 )}
                 <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-xl font-bold">{event.title}</h3>
-                  <div className="flex items-center text-sm mt-1">
+                  <h3 className="text-lg sm:text-xl font-bold">{event.title}</h3>
+                  <div className="flex items-center text-xs sm:text-sm mt-1">
                     <MapPin className="h-3 w-3 mr-1" />
                     <span>{event.location}</span>
                   </div>
@@ -228,27 +229,29 @@ function EventCard({ event, onMediaClick }) {
               </div>
               
               {/* Event Details */}
-              <div className="md:w-2/3 p-6 flex flex-col">
-                <div className="flex justify-between items-start mb-4">
-                  <div className="flex items-center bg-[#e88fac]/10 px-3 py-1 rounded-full">
-                    <Clock className="h-4 w-4 mr-2 text-[#e88fac]" />
-                    <span className="text-sm font-medium text-[#505c4a]">{event.date}</span>
+              <div className="w-full md:w-2/3 p-4 sm:p-6 flex flex-col">
+                <div className="flex justify-between items-start mb-3 sm:mb-4">
+                  <div className="flex items-center bg-[#e88fac]/10 px-2 sm:px-3 py-1 rounded-full">
+                    <Clock className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 text-[#e88fac]" />
+                    <span className="text-xs sm:text-sm font-medium text-[#505c4a]">{event.date}</span>
                   </div>
-                  <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-[#e88fac]/20 text-[#505c4a]">
-                    {event.category}
-                  </span>
+                  {event.category && (
+                    <span className="inline-block px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-[#e88fac]/20 text-[#505c4a]">
+                      {event.category}
+                    </span>
+                  )}
                 </div>
                 
                 <div className="flex-grow">
-                  <p className="text-[#5c6650] line-clamp-3 mb-4">
+                  <p className="text-[#5c6650] text-sm sm:text-base line-clamp-3 mb-3 sm:mb-4">
                     {event.description}
                   </p>
                 </div>
                 
-                <div className="flex justify-between items-center mt-auto pt-4 border-t border-[#e88fac]/20">
-                  <button className="flex items-center text-sm font-medium text-[#e88fac] hover:text-[#d87a9c] transition-colors">
+                <div className="flex justify-between items-center mt-auto pt-3 sm:pt-4 border-t border-[#e88fac]/20">
+                  <button className="flex items-center text-xs sm:text-sm font-medium text-[#e88fac] hover:text-[#d87a9c] transition-colors">
                     View Details
-                    <ChevronDown className="h-4 w-4 ml-1" />
+                    <ChevronDown className="h-3 w-3 sm:h-4 sm:w-4 ml-1" />
                   </button>
                 </div>
               </div>
@@ -260,7 +263,7 @@ function EventCard({ event, onMediaClick }) {
             isExpanded ? 'opacity-100' : 'opacity-0 absolute inset-0'
           }`}>
             {/* Hero Section */}
-            <div className="relative h-96 w-full overflow-hidden bg-gray-100">
+            <div className="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden bg-gray-100">
               {event.media[0].type === 'image' ? (
                 <img 
                   src={event.media[0].url} 
@@ -292,50 +295,52 @@ function EventCard({ event, onMediaClick }) {
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-[#505c4a]/90 via-[#505c4a]/30 to-transparent"></div>
               
-              <div className="absolute top-6 right-6">
+              <div className="absolute top-4 sm:top-6 right-4 sm:right-6">
                 <button 
                   onClick={(e) => {
                     e.stopPropagation();
                     setIsExpanded(false);
                   }}
-                  className="p-3 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-colors shadow-md"
+                  className="p-2 sm:p-3 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-colors shadow-md"
                 >
-                  <ChevronUp className="h-5 w-5 text-white" />
+                  <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                 </button>
               </div>
               
-              <div className="absolute bottom-8 left-8 max-w-2xl">
-                <div className="inline-block mb-3 px-3 py-1 rounded-full bg-[#e88fac] text-white text-sm font-medium">
-                  {event.category}
-                </div>
-                <h3 className="text-4xl font-bold text-white mb-2">{event.title}</h3>
+              <div className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 max-w-2xl">
+                {event.category && (
+                  <div className="inline-block mb-2 sm:mb-3 px-2 sm:px-3 py-1 rounded-full bg-[#e88fac] text-white text-xs sm:text-sm font-medium">
+                    {event.category}
+                  </div>
+                )}
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2">{event.title}</h3>
                 <div className="flex items-center text-white/90">
-                  <MapPin className="h-5 w-5 mr-2" />
-                  <span className="text-lg">{event.location}</span>
+                  <MapPin className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2" />
+                  <span className="text-sm sm:text-lg">{event.location}</span>
                 </div>
               </div>
             </div>
             
             {/* Content Section */}
-            <div className="p-8 bg-gradient-to-b from-[#f9f5f8] to-[#f5fcf8]">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="p-4 sm:p-6 md:p-8 bg-gradient-to-b from-[#f9f5f8] to-[#f5fcf8]">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
                 {/* Main Content */}
                 <div className="lg:col-span-2">
-                  <h4 className="text-2xl font-semibold mb-6 text-[#505c4a]">Event Details</h4>
-                  <p className="text-[#505c4a] leading-relaxed mb-8">{event.description}</p>
+                  <h4 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-[#505c4a]">Event Details</h4>
+                  <p className="text-[#505c4a] text-sm sm:text-base leading-relaxed mb-6 sm:mb-8">{event.description}</p>
                   
                   {/* Media Gallery Preview */}
                   {event.media.length > 1 && (
-                    <div className="mb-8">
-                      <h4 className="text-xl font-semibold mb-4 text-[#505c4a]">Event Gallery</h4>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                        {event.media.map((media, idx) => (
+                    <div className="mb-6 sm:mb-8">
+                      <h4 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-[#505c4a]">Event Gallery</h4>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+                        {event.media.slice(1).map((media, idx) => (
                           <div 
                             key={idx} 
-                            className="relative aspect-video rounded-xl overflow-hidden border-2 border-white shadow-md cursor-pointer hover:border-[#e88fac] transition-all hover:scale-[1.02] group"
+                            className="relative aspect-video rounded-lg sm:rounded-xl overflow-hidden border-2 border-white shadow-md cursor-pointer hover:border-[#e88fac] transition-all hover:scale-[1.02] group"
                             onClick={(e) => {
                               e.stopPropagation();
-                              onMediaClick(event.id, idx);
+                              onMediaClick(event.id, idx + 1);
                             }}
                           >
                             {media.type === 'image' ? (
@@ -352,8 +357,8 @@ function EventCard({ event, onMediaClick }) {
                                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                                 />
                                 <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                                  <div className="w-10 h-10 rounded-full bg-white/80 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#e88fac" className="w-5 h-5 ml-1">
+                                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/80 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#e88fac" className="w-4 h-4 sm:w-5 sm:h-5 ml-1">
                                       <path d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
                                     </svg>
                                   </div>
@@ -361,7 +366,7 @@ function EventCard({ event, onMediaClick }) {
                               </>
                             )}
                             <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/20 transition-colors">
-                              <Maximize2 className="h-5 w-5 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                              <Maximize2 className="h-4 w-4 sm:h-5 sm:w-5 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
                             </div>
                           </div>
                         ))}
@@ -371,27 +376,27 @@ function EventCard({ event, onMediaClick }) {
                 </div>
                 
                 {/* Sidebar */}
-                <div className="space-y-6">
-                  <div className="bg-white p-6 rounded-xl shadow-sm border border-[#e88fac]/20">
-                    <h4 className="text-lg font-semibold mb-4 text-[#505c4a]">Event Information</h4>
+                <div className="space-y-4 sm:space-y-6">
+                  <div className="bg-white p-4 sm:p-6 rounded-lg sm:rounded-xl shadow-sm border border-[#e88fac]/20">
+                    <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-[#505c4a]">Event Information</h4>
                     
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       <div className="flex items-start">
-                        <div className="flex-shrink-0 mt-1 mr-4 text-[#e88fac]">
-                          <Clock className="h-5 w-5" />
+                        <div className="flex-shrink-0 mt-1 mr-3 sm:mr-4 text-[#e88fac]">
+                          <Clock className="h-4 w-4 sm:h-5 sm:w-5" />
                         </div>
                         <div>
-                          <div className="font-medium text-[#505c4a]">{event.date}</div>
+                          <div className="font-medium text-sm sm:text-base text-[#505c4a]">{event.date}</div>
                         </div>
                       </div>
                       
                       <div className="flex items-start">
-                        <div className="flex-shrink-0 mt-1 mr-4 text-[#e88fac]">
-                          <MapPin className="h-5 w-5" />
+                        <div className="flex-shrink-0 mt-1 mr-3 sm:mr-4 text-[#e88fac]">
+                          <MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
                         </div>
                         <div>
-                          <div className="font-medium text-[#505c4a]">Location</div>
-                          <div className="text-sm text-[#5c6650]">{event.location}</div>
+                          <div className="font-medium text-sm sm:text-base text-[#505c4a]">Location</div>
+                          <div className="text-xs sm:text-sm text-[#5c6650]">{event.location}</div>
                         </div>
                       </div>
                     </div>
@@ -435,15 +440,15 @@ export default function EventsPage() {
       )}
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-16 relative z-0 top-[100px]">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold mb-6 text-[#505c4a]">Our Projects</h1>
-          <p className="max-w-2xl mx-auto text-xl text-[#5c6650]">
+      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 relative z-0 top-[80px] sm:top-[100px]">
+        <div className="text-center mb-12 sm:mb-16">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 text-[#505c4a]">Our Projects</h1>
+          <p className="max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-[#5c6650]">
             Discover our exciting projects.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 gap-16">
+        <div className="grid grid-cols-1 gap-10 sm:gap-16">
           {events.map((event) => (
             <EventCard 
               key={event.id} 
@@ -452,7 +457,7 @@ export default function EventsPage() {
             />
           ))}
         </div>
-        <br/><br/>
+        <br className="hidden sm:block"/><br className="hidden sm:block"/>
       </div>
     </div>
   );

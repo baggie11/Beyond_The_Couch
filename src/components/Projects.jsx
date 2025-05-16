@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Clock, MapPin, Users, ChevronDown, ChevronUp, Maximize2 } from 'lucide-react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -9,37 +9,79 @@ const events = [
     description: "Our first official event and it was at JLN Stadium, Delhi to celebrate volunteerism with so many other organisations 😽‼️ we had the best time- we baked, we painted, we wrote letters, made bows, and SO much more 🧚‍♀️💘",
     date: "May 14-15, 2025",
     location: "JLN Stadium, Delhi",
-    images: [
-      "/images/volfest/pic1.jpg",
-      "/images/volfest/pic2.jpg",
-      "/images/volfest/pic3.jpg"
+    media: [
+      { type: 'image', url: "/images/volfest/pic1.jpg" },
+      { type: 'image', url: "/images/volfest/pic2.jpg" },
+      { type: 'image', url: "/images/volfest/pic3.jpg" }
     ],
     color: "bg-[#e88fac]",
   },
- 
+  {
+    id: 2,
+    title: "Agahi MUN",
+    description: "We threw a super fun fundraiser at Agahi MUN, Amity University and raised ₹24K! There was an art sale, cute jewelry, tons of games, and even a matchmaking game that had everyone giggling. It was such a vibe, and all the funds are going to support our mental health projects.",
+    date: "April 26, 2025",
+    location: "Amity University",
+    media: [
+      { type: 'image', url: "/images/aghai/pic1.jpg" },
+      { type: 'image', url: "/images/aghai/pic2.jpg" },
+      { type: 'video', url: "/images/aghai/vid2.mp4", thumbnail: "/images/aghai/vid2-thumb.jpg" }
+    ],
+    color: "bg-[#e88fac]",
+  },
+  {
+    id: 3,
+    title: "Mumbai canvas painting fundraiser",
+    description: "Our Canvas Painting Fundraiser marked the launch event of our initiative and was a heartwarming success. I’m thrilled to share that we raised over ₹17,700, all of which will directly support our cause.This event was held in collaboration with Antigone, our sister organization, and brought together individuals of all age groups in a vibrant and inclusive environment. From young kids to adults, everyone was deeply engrossed in painting their canvases, expressing creativity and compassion in equal measure. What made the day truly special was that it wasn't just about the art people created—it was about the impact they contributed to. The joy, unity, and generosity on display reflected the spirit of our mission and set a beautiful tone for future events.",
+    date: "May 10, 2025",
+    location: "Poco Loco, Khar",
+    media: [
+      { type: 'image', url: "/images/mumbai/pic1.png" },
+      { type: 'image', url: "/images/mumbai/pic2.png" },
+      { type: 'image', url: "/images/mumbai/pic3.png" },
+      { type: 'image', url: "/images/mumbai/pic4.png" }
+    ],
+    color: "bg-[#e88fac]",
+  },
 ];
 
-function ImageViewer({ images, initialIndex = 0, onClose }) {
+function MediaViewer({ mediaItems, initialIndex = 0, onClose }) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const videoRef = useRef(null);
 
-  const nextImage = () => {
-    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  const nextMedia = () => {
+    setCurrentIndex((prev) => (prev === mediaItems.length - 1 ? 0 : prev + 1));
   };
 
-  const prevImage = () => {
-    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  const prevMedia = () => {
+    setCurrentIndex((prev) => (prev === 0 ? mediaItems.length - 1 : prev - 1));
   };
 
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
-      if (e.key === 'ArrowRight') nextImage();
-      if (e.key === 'ArrowLeft') prevImage();
+      if (e.key === 'ArrowRight') nextMedia();
+      if (e.key === 'ArrowLeft') prevMedia();
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      if (mediaItems[currentIndex].type === 'video') {
+        videoRef.current.currentTime = 0;
+        videoRef.current.play().catch(e => console.log("Autoplay prevented:", e));
+      } else {
+        if (videoRef.current) {
+          videoRef.current.pause();
+        }
+      }
+    }
+  }, [currentIndex, mediaItems]);
+
+  const currentMedia = mediaItems[currentIndex];
 
   return (
     <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
@@ -54,7 +96,7 @@ function ImageViewer({ images, initialIndex = 0, onClose }) {
         <button 
           onClick={(e) => {
             e.stopPropagation();
-            prevImage();
+            prevMedia();
           }}
           className="absolute left-4 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
         >
@@ -62,17 +104,27 @@ function ImageViewer({ images, initialIndex = 0, onClose }) {
         </button>
         
         <div className="w-full h-full flex items-center justify-center">
-          <img 
-            src={images[currentIndex]} 
-            alt={`Event image ${currentIndex + 1}`}
-            className="max-w-full max-h-full object-contain rounded-lg"
-          />
+          {currentMedia.type === 'image' ? (
+            <img 
+              src={currentMedia.url} 
+              alt={`Event media ${currentIndex + 1}`}
+              className="max-w-full max-h-full object-contain rounded-lg"
+            />
+          ) : (
+            <video
+              ref={videoRef}
+              src={currentMedia.url}
+              controls
+              className="max-w-full max-h-full object-contain rounded-lg"
+              poster={currentMedia.thumbnail}
+            />
+          )}
         </div>
         
         <button 
           onClick={(e) => {
             e.stopPropagation();
-            nextImage();
+            nextMedia();
           }}
           className="absolute right-4 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
         >
@@ -81,7 +133,7 @@ function ImageViewer({ images, initialIndex = 0, onClose }) {
       </div>
       
       <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2">
-        {images.map((_, idx) => (
+        {mediaItems.map((_, idx) => (
           <button
             key={idx}
             onClick={() => setCurrentIndex(idx)}
@@ -93,7 +145,7 @@ function ImageViewer({ images, initialIndex = 0, onClose }) {
   );
 }
 
-function EventCard({ event, onImageClick }) {
+function EventCard({ event, onMediaClick }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
@@ -120,12 +172,10 @@ function EventCard({ event, onImageClick }) {
       <div 
         className={`group relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 ${isExpanded ? 'shadow-2xl' : 'shadow-lg hover:shadow-xl'}`}
         onClick={() => setIsExpanded(!isExpanded)}
-       
       >
-        {/* Gradient Border Effect */}
         <div className="absolute inset-0 rounded-3xl p-[2px] bg-gradient-to-br from-[#e88fac] to-[#505c4a] opacity-70 group-hover:opacity-100 transition-opacity duration-300 z-0"></div>
         
-        <div className={`relative bg-white rounded-[calc(1.5rem-2px)] overflow-hidden  transition-all duration-500 ease-out ${
+        <div className={`relative bg-white rounded-[calc(1.5rem-2px)] overflow-hidden transition-all duration-500 ease-out ${
           isExpanded ? 'scale-105' : 'group-hover:scale-[1.02]'
         }`}>
           {/* Collapsed View */}
@@ -133,17 +183,40 @@ function EventCard({ event, onImageClick }) {
             isExpanded ? 'opacity-0 absolute inset-0' : 'opacity-100'
           }`}>
             <div className="flex flex-col md:flex-row h-full">
-              {/* Event Image */}
+              {/* Event Media */}
               <div className="relative md:w-1/3 h-64 md:h-auto overflow-hidden bg-gray-100">
-                <img 
-                  src={event.images[0]} 
-                  alt={event.title}
-                  className="w-full h-[200px] object-cover transition-transform duration-500 group-hover:scale-105"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onImageClick(event.id, 0);
-                  }}
-                />
+                {event.media[0].type === 'image' ? (
+                  <img 
+                    src={event.media[0].url} 
+                    alt={event.title}
+                    className="w-full h-[200px] object-cover transition-transform duration-500 group-hover:scale-105"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onMediaClick(event.id, 0);
+                    }}
+                  />
+                ) : (
+                  <div 
+                    className="relative w-full h-[200px] overflow-hidden"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onMediaClick(event.id, 0);
+                    }}
+                  >
+                    <img 
+                      src={event.media[0].thumbnail} 
+                      alt={event.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                      <div className="w-12 h-12 rounded-full bg-white/80 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#e88fac" className="w-6 h-6 ml-1">
+                          <path d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute bottom-4 left-4 text-white">
                   <h3 className="text-xl font-bold">{event.title}</h3>
@@ -159,7 +232,7 @@ function EventCard({ event, onImageClick }) {
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex items-center bg-[#e88fac]/10 px-3 py-1 rounded-full">
                     <Clock className="h-4 w-4 mr-2 text-[#e88fac]" />
-                    <span className="text-sm font-medium text-[#505c4a]">{event.date} • {event.time}</span>
+                    <span className="text-sm font-medium text-[#505c4a]">{event.date}</span>
                   </div>
                   <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-[#e88fac]/20 text-[#505c4a]">
                     {event.category}
@@ -173,7 +246,6 @@ function EventCard({ event, onImageClick }) {
                 </div>
                 
                 <div className="flex justify-between items-center mt-auto pt-4 border-t border-[#e88fac]/20">
-                  
                   <button className="flex items-center text-sm font-medium text-[#e88fac] hover:text-[#d87a9c] transition-colors">
                     View Details
                     <ChevronDown className="h-4 w-4 ml-1" />
@@ -189,15 +261,35 @@ function EventCard({ event, onImageClick }) {
           }`}>
             {/* Hero Section */}
             <div className="relative h-96 w-full overflow-hidden bg-gray-100">
-              <img 
-                src={event.images[0]} 
-                alt={event.title}
-                className="w-full h-full object-cover"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onImageClick(event.id, 0);
-                }}
-              />
+              {event.media[0].type === 'image' ? (
+                <img 
+                  src={event.media[0].url} 
+                  alt={event.title}
+                  className="w-full h-full object-cover"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onMediaClick(event.id, 0);
+                  }}
+                />
+              ) : (
+                <div 
+                  className="relative w-full h-full"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onMediaClick(event.id, 0);
+                  }}
+                >
+                  <video
+                    src={event.media[0].url}
+                    className="w-full h-full object-cover"
+                    poster={event.media[0].thumbnail}
+                    muted
+                    loop
+                    autoPlay
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#505c4a]/90 via-[#505c4a]/30 to-transparent"></div>
+                </div>
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-[#505c4a]/90 via-[#505c4a]/30 to-transparent"></div>
               
               <div className="absolute top-6 right-6">
@@ -232,25 +324,42 @@ function EventCard({ event, onImageClick }) {
                   <h4 className="text-2xl font-semibold mb-6 text-[#505c4a]">Event Details</h4>
                   <p className="text-[#505c4a] leading-relaxed mb-8">{event.description}</p>
                   
-                  {/* Image Gallery Preview */}
-                  {event.images.length > 1 && (
+                  {/* Media Gallery Preview */}
+                  {event.media.length > 1 && (
                     <div className="mb-8">
                       <h4 className="text-xl font-semibold mb-4 text-[#505c4a]">Event Gallery</h4>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                        {event.images.map((img, idx) => (
+                        {event.media.map((media, idx) => (
                           <div 
                             key={idx} 
                             className="relative aspect-video rounded-xl overflow-hidden border-2 border-white shadow-md cursor-pointer hover:border-[#e88fac] transition-all hover:scale-[1.02] group"
                             onClick={(e) => {
                               e.stopPropagation();
-                              onImageClick(event.id, idx);
+                              onMediaClick(event.id, idx);
                             }}
                           >
-                            <img 
-                              src={img} 
-                              alt={`Preview ${idx + 1}`}
-                              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                            />
+                            {media.type === 'image' ? (
+                              <img 
+                                src={media.url} 
+                                alt={`Preview ${idx + 1}`}
+                                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                              />
+                            ) : (
+                              <>
+                                <img 
+                                  src={media.thumbnail} 
+                                  alt={`Video thumbnail ${idx + 1}`}
+                                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                />
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                                  <div className="w-10 h-10 rounded-full bg-white/80 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#e88fac" className="w-5 h-5 ml-1">
+                                      <path d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+                                    </svg>
+                                  </div>
+                                </div>
+                              </>
+                            )}
                             <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/20 transition-colors">
                               <Maximize2 className="h-5 w-5 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
                             </div>
@@ -273,7 +382,6 @@ function EventCard({ event, onImageClick }) {
                         </div>
                         <div>
                           <div className="font-medium text-[#505c4a]">{event.date}</div>
-                          <div className="text-sm text-[#5c6650]">{event.time}</div>
                         </div>
                       </div>
                       
@@ -286,8 +394,6 @@ function EventCard({ event, onImageClick }) {
                           <div className="text-sm text-[#5c6650]">{event.location}</div>
                         </div>
                       </div>
-                      
-                   
                     </div>
                   </div>
                 </div>
@@ -301,17 +407,17 @@ function EventCard({ event, onImageClick }) {
 }
 
 export default function EventsPage() {
-  const [viewingImage, setViewingImage] = useState(null);
-  const [viewingImageIndex, setViewingImageIndex] = useState(0);
+  const [viewingMedia, setViewingMedia] = useState(null);
+  const [viewingMediaIndex, setViewingMediaIndex] = useState(0);
 
-  const handleImageClick = (eventId, imageIndex) => {
+  const handleMediaClick = (eventId, mediaIndex) => {
     const event = events.find(e => e.id === eventId);
-    setViewingImage(event.images);
-    setViewingImageIndex(imageIndex);
+    setViewingMedia(event.media);
+    setViewingMediaIndex(mediaIndex);
   };
 
   return (
-    <div className="min-h-screen  text-[#505c4a]">
+    <div className="min-h-screen text-[#505c4a]">
       {/* Decorative elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-0 w-64 h-64 rounded-full bg-[#e88fac]/10 blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
@@ -319,12 +425,12 @@ export default function EventsPage() {
         <div className="absolute top-1/4 right-1/4 w-80 h-80 rounded-full bg-[#505c4a]/10 blur-3xl"></div>
       </div>
 
-      {/* Image Viewer Modal */}
-      {viewingImage && (
-        <ImageViewer 
-          images={viewingImage} 
-          initialIndex={viewingImageIndex}
-          onClose={() => setViewingImage(null)}
+      {/* Media Viewer Modal */}
+      {viewingMedia && (
+        <MediaViewer 
+          mediaItems={viewingMedia} 
+          initialIndex={viewingMediaIndex}
+          onClose={() => setViewingMedia(null)}
         />
       )}
 
@@ -342,13 +448,11 @@ export default function EventsPage() {
             <EventCard 
               key={event.id} 
               event={event} 
-              onImageClick={handleImageClick} 
+              onMediaClick={handleMediaClick} 
             />
           ))}
         </div>
         <br/><br/>
-
-    
       </div>
     </div>
   );

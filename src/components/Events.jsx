@@ -58,7 +58,7 @@ export default function EventsPage() {
         location : "The Dome Cafe - Kalyan Nagar",
         city : "Bangalore",
         price : "₹250 per person",
-        link : "https://forms.gle/1xsapmjPSs6zStAm8 "
+        link : "https://forms.gle/1xsapmjPSs6zStAm8"
     }
   ];
 
@@ -123,9 +123,9 @@ export default function EventsPage() {
                 </div>
                 
                 {/* Date & Location - Fixed Height Container */}
-                <div className="space-y-3 mb-4 min-h-[120px]">
+                <div className="space-y-3 mb-4">
                   {/* Date Section */}
-                  <div className="flex items-center p-3 bg-[#f8f9f7] rounded-lg border-l-4 border-[#ffa5c0] h-[60px]">
+                  <div className="flex items-center p-3 bg-[#f8f9f7] rounded-lg border-l-4 border-[#ffa5c0]">
                     <svg className="w-5 h-5 mr-2 text-[#ffa5c0] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
@@ -136,13 +136,13 @@ export default function EventsPage() {
                     </div>
                   </div>
                   
-                  {/* Location Section */}
-                  <div className="flex items-center p-3 bg-[#f8f9f7] rounded-lg border-l-4 border-[#7c856c] h-[60px]">
-                    <svg className="w-5 h-5 mr-2 text-[#7c856c] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {/* Location Section - Removed fixed height and truncate */}
+                  <div className="flex items-start p-3 bg-[#f8f9f7] rounded-lg border-l-4 border-[#7c856c]">
+                    <svg className="w-5 h-5 mr-2 text-[#7c856c] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    <div className="truncate">
+                    <div className="break-words">
                       <span className="font-semibold text-[#5c6650]">Location: </span>
                       <span className="text-gray-700">{event.location}</span>
                     </div>

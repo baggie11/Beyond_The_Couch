@@ -145,7 +145,7 @@ const GallerySwiper = () => {
               900: { slidesPerView: 2 },
               200: { slidesPerView: 1 },
             }}
-            className="gallery-top w-full md:w-[1028px] mx-auto pt-6"
+            className="gallery-top w-full md:w-[1028px] mx-auto pt-6 h-[500px]"
           >
             {images.map((item, index) => (
               <SwiperSlide key={index} className="group">

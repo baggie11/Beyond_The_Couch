@@ -171,7 +171,7 @@ function EventCard({ event, onMediaClick }) {
       className="w-full max-w-6xl mx-auto mb-8 sm:mb-12"
     >
       <div 
-        className={`group relative rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 ${isExpanded ? 'shadow-2xl' : 'shadow-lg hover:shadow-xl'}`}
+        className={`group relative rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 ${isExpanded ? 'shadow-2xl' : 'shadow-lg hover:shadow-xl'}`}
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="absolute inset-0 rounded-2xl sm:rounded-3xl p-[2px] bg-gradient-to-br from-[#e88fac] to-[#505c4a] opacity-70 group-hover:opacity-100 transition-opacity duration-300 z-0"></div>
@@ -185,7 +185,7 @@ function EventCard({ event, onMediaClick }) {
           }`}>
             <div className="flex flex-col md:flex-row h-[300px]">
               {/* Event Media */}
-              <div className="relative w-full md:w-1/3  sm:h-64 md:h-auto overflow-hidden bg-gray-100">
+              <div className="relative w-full md:w-1/3 sm:h-64 md:h-auto overflow-hidden bg-gray-100">
                 {event.media[0].type === 'image' ? (
                   <img 
                     src={event.media[0].url} 
@@ -258,17 +258,17 @@ function EventCard({ event, onMediaClick }) {
             </div>
           </div>
           
-          {/* Expanded View */}
+          {/* Enhanced Expanded View */}
           <div className={`transition-all duration-500 ease-out ${
             isExpanded ? 'opacity-100' : 'opacity-0 absolute inset-0'
           }`}>
-            {/* Hero Section */}
+            {/* Hero Section with improved gradient */}
             <div className="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden bg-gray-100">
               {event.media[0].type === 'image' ? (
                 <img 
                   src={event.media[0].url} 
                   alt={event.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                   onClick={(e) => {
                     e.stopPropagation();
                     onMediaClick(event.id, 0);
@@ -290,30 +290,36 @@ function EventCard({ event, onMediaClick }) {
                     loop
                     autoPlay
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#505c4a]/90 via-[#505c4a]/30 to-transparent"></div>
                 </div>
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#505c4a]/90 via-[#505c4a]/30 to-transparent"></div>
               
+              {/* Improved gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#505c4a]/90 via-[#505c4a]/30 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-transparent"></div>
+              
+              {/* Close button with better styling */}
               <div className="absolute top-4 sm:top-6 right-4 sm:right-6">
                 <button 
                   onClick={(e) => {
                     e.stopPropagation();
                     setIsExpanded(false);
                   }}
-                  className="p-2 sm:p-3 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-colors shadow-md"
+                  className="p-2 sm:p-3 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all shadow-md hover:scale-110"
                 >
                   <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                 </button>
               </div>
               
+              {/* Enhanced title section */}
               <div className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 max-w-2xl">
                 {event.category && (
-                  <div className="inline-block mb-2 sm:mb-3 px-2 sm:px-3 py-1 rounded-full bg-[#e88fac] text-white text-xs sm:text-sm font-medium">
+                  <div className="inline-block mb-2 sm:mb-3 px-3 py-1 rounded-full bg-[#e88fac] text-white text-xs sm:text-sm font-medium shadow-md">
                     {event.category}
                   </div>
                 )}
-                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2">{event.title}</h3>
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2 drop-shadow-md">
+                  {event.title}
+                </h3>
                 <div className="flex items-center text-white/90">
                   <MapPin className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2" />
                   <span className="text-sm sm:text-lg">{event.location}</span>
@@ -321,18 +327,28 @@ function EventCard({ event, onMediaClick }) {
               </div>
             </div>
             
-            {/* Content Section */}
-            <div className="p-4 sm:p-6 md:p-8 bg-gradient-to-b from-[#f9f5f8] to-[#f5fcf8]">
+            {/* Enhanced Content Section */}
+            <div className="p-4 sm:p-6 md:p-8 bg-gradient-to-b from-white to-[#f9f9f9]">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
                 {/* Main Content */}
                 <div className="lg:col-span-2">
-                  <h4 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-[#505c4a]">Event Details</h4>
-                  <p className="text-[#505c4a] text-sm sm:text-base leading-relaxed mb-6 sm:mb-8">{event.description}</p>
+                  <div className="mb-6 sm:mb-8">
+                    <div className="flex items-center mb-4 sm:mb-6">
+                      <div className="w-8 h-1 bg-[#e88fac] rounded-full mr-3"></div>
+                      <h4 className="text-xl sm:text-2xl font-semibold text-[#505c4a]">Event Details</h4>
+                    </div>
+                    <p className="text-[#505c4a]/90 text-sm sm:text-base leading-relaxed mb-6 sm:mb-8">
+                      {event.description}
+                    </p>
+                  </div>
                   
-                  {/* Media Gallery Preview */}
+                  {/* Enhanced Media Gallery Preview */}
                   {event.media.length > 1 && (
                     <div className="mb-6 sm:mb-8">
-                      <h4 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-[#505c4a]">Event Gallery</h4>
+                      <div className="flex items-center mb-4 sm:mb-6">
+                        <div className="w-8 h-1 bg-[#e88fac] rounded-full mr-3"></div>
+                        <h4 className="text-lg sm:text-xl font-semibold text-[#505c4a]">Event Gallery</h4>
+                      </div>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                         {event.media.slice(1).map((media, idx) => (
                           <div 
@@ -357,7 +373,7 @@ function EventCard({ event, onMediaClick }) {
                                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                                 />
                                 <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/80 flex items-center justify-center">
+                                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/80 flex items-center justify-center transform transition-all group-hover:scale-110">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#e88fac" className="w-4 h-4 sm:w-5 sm:h-5 ml-1">
                                       <path d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
                                     </svg>
@@ -365,8 +381,8 @@ function EventCard({ event, onMediaClick }) {
                                 </div>
                               </>
                             )}
-                            <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/20 transition-colors">
-                              <Maximize2 className="h-4 w-4 sm:h-5 sm:w-5 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/20 transition-all">
+                              <Maximize2 className="h-4 w-4 sm:h-5 sm:w-5 text-white opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:scale-125" />
                             </div>
                           </div>
                         ))}
@@ -375,32 +391,39 @@ function EventCard({ event, onMediaClick }) {
                   )}
                 </div>
                 
-                {/* Sidebar */}
+                {/* Enhanced Sidebar */}
                 <div className="space-y-4 sm:space-y-6">
-                  <div className="bg-white p-4 sm:p-6 rounded-lg sm:rounded-xl shadow-sm border border-[#e88fac]/20">
-                    <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-[#505c4a]">Event Information</h4>
+                  <div className="bg-white p-4 sm:p-6 rounded-lg sm:rounded-xl shadow-sm border border-[#e88fac]/10 hover:border-[#e88fac]/30 transition-colors">
+                    <div className="flex items-center mb-3 sm:mb-4">
+                      <div className="w-6 h-1 bg-[#e88fac] rounded-full mr-2"></div>
+                      <h4 className="text-base sm:text-lg font-semibold text-[#505c4a]">Event Information</h4>
+                    </div>
                     
                     <div className="space-y-3 sm:space-y-4">
                       <div className="flex items-start">
-                        <div className="flex-shrink-0 mt-1 mr-3 sm:mr-4 text-[#e88fac]">
+                        <div className="flex-shrink-0 mt-1 mr-3 sm:mr-4 text-[#e88fac] bg-[#e88fac]/10 p-2 rounded-full">
                           <Clock className="h-4 w-4 sm:h-5 sm:w-5" />
                         </div>
                         <div>
                           <div className="font-medium text-sm sm:text-base text-[#505c4a]">{event.date}</div>
+                          <div className="text-xs sm:text-sm text-[#5c6650]/80">Event Date</div>
                         </div>
                       </div>
                       
                       <div className="flex items-start">
-                        <div className="flex-shrink-0 mt-1 mr-3 sm:mr-4 text-[#e88fac]">
+                        <div className="flex-shrink-0 mt-1 mr-3 sm:mr-4 text-[#e88fac] bg-[#e88fac]/10 p-2 rounded-full">
                           <MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
                         </div>
                         <div>
                           <div className="font-medium text-sm sm:text-base text-[#505c4a]">Location</div>
-                          <div className="text-xs sm:text-sm text-[#5c6650]">{event.location}</div>
+                          <div className="text-xs sm:text-sm text-[#5c6650]/80">{event.location}</div>
                         </div>
                       </div>
                     </div>
                   </div>
+
+                  {/* Additional Info Box */}
+                 
                 </div>
               </div>
             </div>

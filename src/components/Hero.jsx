@@ -118,11 +118,11 @@ const WhoWeAre = () => {
             </motion.p>
           
             <motion.p 
-              className="text-2xl font-light italic text-[#5c6650] mt-6"
+              className="text-2xl font-light italic text-[#fe89aa] mt-6"
               variants={slideInFromLeft}
               transition={{ delay: 0.2 }}
             >
-              WE FOCUS ON CREATING IMPACT THROUGH STORYTELLING AND ART!
+              We focus on creating impact through storytelling and art!
             </motion.p>
           </motion.div>
           

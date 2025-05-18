@@ -101,7 +101,7 @@ export default function Team() {
           <div className="absolute -top-4 -left-4 w-20 h-20 rounded-full bg-[#f5a8d5] opacity-20"></div>
           <div className="absolute -bottom-4 -right-4 w-16 h-16 rounded-full bg-[#fe89aa] opacity-20"></div>
           
-          <div className="relative z-10">
+          <div className="relative">
             <h3 className="text-2xl font-bold text-[#5c6650] mb-6 text-center">
               A Note From Our Founders
             </h3>

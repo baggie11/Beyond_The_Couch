@@ -3,141 +3,104 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
-const Navigation = () => {
+const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeItem, setActiveItem] = useState('');
 
-  // Scroll effect for navbar
+  // Scroll effect
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Hash navigation handling
+  // Active item tracking
   useEffect(() => {
-    if (pathname === '/' && window.location.hash) {
-      const targetId = window.location.hash.substring(1);
-      const element = document.getElementById(targetId);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }, 10);
+    if (pathname === '/') {
+      const hash = window.location.hash.substring(1);
+      if (['home', 'about', 'team', 'gallery'].includes(hash)) {
+        setActiveItem(hash);
+      } else {
+        setActiveItem('home');
       }
+    } else {
+      setActiveItem(pathname.substring(1));
     }
   }, [pathname]);
 
-  // Close menu when clicking outside or on escape key
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (isMenuOpen && !event.target.closest('.mobile-menu-container') && 
-          !event.target.closest('.menu-toggle-btn')) {
-        setIsMenuOpen(false);
-      }
-    };
-
-    const handleEscapeKey = (event) => {
-      if (event.key === 'Escape') {
-        setIsMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleEscapeKey);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscapeKey);
-    };
-  }, [isMenuOpen]);
-
-  // Close menu on desktop view
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsMenuOpen(false);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  // Menu toggle
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+    document.body.style.overflow = isMenuOpen ? 'auto' : 'hidden';
+  };
 
   const handleHomeClick = (e) => {
     e.preventDefault();
     setIsMenuOpen(false);
-    
+    setActiveItem('home');
     if (pathname === '/') {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       router.push('/');
     }
   };
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-    // Prevent scrolling when menu is open
-    document.body.style.overflow = isMenuOpen ? 'auto' : 'hidden';
-  };
-
-  const NavButton = ({ 
-    children, 
-    href, 
-    className = "", 
-    targetId,
-    onClick 
-  }) => {
+  const NavButton = ({ children, href, targetId, onClick, isSpecial = false }) => {
+    const isActive = activeItem === (targetId || (href ? href.substring(1) : ''));
+    
     const handleClick = (e) => {
-      if (onClick) {
-        onClick(e);
-        return;
-      }
+      if (onClick) return onClick(e);
+      if (window.innerWidth < 768) setIsMenuOpen(false);
+      setActiveItem(targetId || (href ? href.substring(1) : ''));
       
-      if (window.innerWidth < 768) {
-        setIsMenuOpen(false);
-        document.body.style.overflow = 'auto'; // Re-enable scrolling
-      }
-
       if (targetId && !href) {
         e.preventDefault();
         if (pathname === '/') {
           const element = document.getElementById(targetId);
           if (element) {
-            element.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
             window.history.pushState({}, '', `/#${targetId}`);
           }
         } else {
           router.push(`/#${targetId}`);
         }
-        return;
-      }
-      
-      if (href) {
+      } else if (href) {
         e.preventDefault();
         router.push(href);
-        return;
       }
     };
 
     return (
-      <a 
-        href={href || (targetId ? `/#${targetId}` : '#')}
-        onClick={handleClick}
-        className={`px-4 py-3 md:py-2 rounded-full text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#4a5340] active:scale-95 ${className}`}
-      >
-        {children}
-      </a>
+      <div className="relative">
+        <a 
+          href={href || (targetId ? `/#${targetId}` : '#')}
+          onClick={handleClick}
+          className={`
+            px-4 py-2 md:py-1.5 rounded-full transition-all duration-200 
+            flex items-center justify-center
+            ${isSpecial ? 
+              `bg-[#fe89aa] text-white font-medium shadow-md
+               hover:shadow-lg hover:bg-[#fe89aa]/90
+               border-2 border-white rounded-full` : 
+              isActive ? 
+                `text-white font-medium` : 
+                `text-white hover:bg-white/10 rounded-full`
+            }
+            ${isSpecial ? 'mx-1' : 'mx-0.5'}
+          `}
+        >
+          {children}
+        </a>
+        {isSpecial && (
+          <span className="absolute -top-1 -right-1 flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#fe89aa] opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-[#fe89aa]"></span>
+          </span>
+        )}
+      </div>
     );
   };
 
@@ -146,17 +109,12 @@ const Navigation = () => {
       {/* Mobile menu button */}
       <button
         onClick={toggleMenu}
-        className="menu-toggle-btn md:hidden fixed top-4 right-4 z-50 p-3 rounded-full transition-all duration-300 bg-[#5c6650] hover:bg-[#4a5340] shadow-lg"
+        className={`md:hidden fixed top-4 right-4 z-50 p-3 rounded-full transition-all 
+          ${isMenuOpen ? 'bg-[#fe89aa]' : 'bg-[#5c6650]'} 
+          shadow-md hover:shadow-lg`}
         aria-label="Toggle menu"
-        aria-expanded={isMenuOpen}
       >
-        <svg
-          className="w-6 h-6 text-white"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           {isMenuOpen ? (
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           ) : (
@@ -167,59 +125,48 @@ const Navigation = () => {
 
       {/* Mobile menu overlay */}
       {isMenuOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden backdrop-blur-sm"></div>
+        <div className="fixed inset-0 bg-black/30 z-40 md:hidden backdrop-blur-sm"></div>
       )}
 
       {/* Navigation container */}
-      <div className="fixed top-0 left-0 right-0 z-40 flex justify-center pointer-events-none w-full">
+      <div className="fixed top-0 left-[8px] right-0 z-40 h-[50px] flex justify-center pointer-events-none">
         <nav 
-          className={`mobile-menu-container pointer-events-auto transition-all duration-300 ease-in-out
+          className={`
+            pointer-events-auto transition-all duration-300
             ${isScrolled ? 'md:shadow-lg' : 'md:shadow-md'}
             ${isMenuOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'}
-            md:relative md:w-auto md:min-w-[850px] md:mt-4
-            fixed top-0 right-0 h-full w-4/5 max-w-sm bg-[#5c6650] shadow-xl md:rounded-full
+            fixed top-0 right-0 h-full w-4/5 max-w-xs bg-[#5c6650] shadow-xl
+            md:relative md:w-auto md:max-w-none md:mt-4 md:rounded-lg
           `}
         >
-          <div 
-            className={`flex flex-col md:flex-row items-center justify-between w-full h-full 
-              md:rounded-full bg-[#5c6650] md:px-8 md:py-2 gap-2
-              p-6 md:h-auto overflow-y-auto
-            `}
-          >
-            {/* Close button for mobile */}
-            <div className="md:hidden flex justify-end w-full mb-4">
+          <div className="flex flex-col md:flex-row items-center justify-between h-full p-4 md:p-2">
+            {/* Mobile close button */}
+            <div className="md:hidden flex justify-end w-full mb-2">
               <button
                 onClick={toggleMenu}
                 className="p-2 rounded-full hover:bg-[#4a5340]"
                 aria-label="Close menu"
               >
-                <svg
-                  className="w-6 h-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
 
             {/* Navigation items */}
-            <div className="flex flex-col md:flex-row items-center w-full md:justify-center space-y-4 md:space-y-0">
+            <div className="flex flex-col md:flex-row items-center w-full md:justify-center space-y-3 md:space-y-0 md:space-x-1">
               <NavButton targetId="home" onClick={handleHomeClick}>Home</NavButton>
-              <NavButton targetId="about">About Us</NavButton>
-              <NavButton href="/events">Events</NavButton>
+              <NavButton targetId="about">About</NavButton>
+              <NavButton href="/events" isSpecial>Events</NavButton>
               <NavButton href="/projects">Projects</NavButton>
               <NavButton targetId="team">Team</NavButton>
               <NavButton targetId="gallery">Gallery</NavButton>
-              <NavButton href="/contact">Contact Us</NavButton>
+              <NavButton href="/contact">Contact</NavButton>
             </div>
 
-            {/* Join Us button */}
-            <div className="mt-8 md:mt-0 md:ml-5">
+            {/* Join Us button - only show on desktop */}
+            <div className="hidden md:block md:ml-2">
               <NavButton 
-                className="bg-[#fe89aa] hover:bg-[#e67899] text-white font-bold w-full md:w-auto text-center"
                 href="/joinus"
               >
                 Join
@@ -232,4 +179,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default Navbar;

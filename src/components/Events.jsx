@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 export default function EventsPage() {
   const [selectedCity, setSelectedCity] = useState('All');
@@ -15,7 +16,8 @@ export default function EventsPage() {
       location: "Blindbakes Cafe, Hauz Khas",
       city: "Delhi",
       price: "₹250 per person",
-      link: "https://forms.gle/2kJKNP6NBPriBcts8"
+      link: "https://forms.gle/2kJKNP6NBPriBcts8",
+      image: "/images/events/tote1.jpg"
     },
     {
       id: 2,
@@ -26,7 +28,8 @@ export default function EventsPage() {
       location: "Indira Gandhi Foundation Park, Bangalore",
       city: "Bangalore",
       price: "₹100 per person",
-      link: "https://docs.google.com/forms/d/e/1FAIpQLSdt6zUwzzQAuKqjU973JOxKfXhgShHtNKcbCdXgt5bPj_I1OA/viewform?usp=header"
+      link: "https://docs.google.com/forms/d/e/1FAIpQLSdt6zUwzzQAuKqjU973JOxKfXhgShHtNKcbCdXgt5bPj_I1OA/viewform?usp=header",
+      image: "/images/events/garden.jpg"
     },
     {
       id: 3,
@@ -37,7 +40,8 @@ export default function EventsPage() {
       location: "Cafe Flynn, Khajaguda, Hyderabad",
       city: "Hyderabad",
       price: "₹250 per person",
-      link: "https://forms.gle/tEdqm5BWUPoadNXY6"
+      link: "https://forms.gle/tEdqm5BWUPoadNXY6",
+      image: "/images/events/tote2.jpg"
     },
     {
       id: 4,
@@ -48,18 +52,20 @@ export default function EventsPage() {
       location: "Khan Market, Delhi",
       city: "Delhi",
       price: "Free Entry",
-      link: null
+      link: null,
+      image: "/images/events/artbake.jpg"
     },
     {
-        id : 5,
-        title : "Tote bag painting",
-        description : "This event is just another way to further our mission, but with an added bonus – take prettiest tote bags home with you! All proceeds from this event will go towards our donation drives. All materials, including tote bags and painting supplies, will be provided at the event.",
-        date : "1st June 2025",
-        time : "1:00 pm - 3:00 pm",
-        location : "The Dome Cafe - Kalyan Nagar",
-        city : "Bangalore",
-        price : "₹250 per person",
-        link : "https://forms.gle/1xsapmjPSs6zStAm8"
+      id: 5,
+      title: "Tote bag painting",
+      description: "This event is just another way to further our mission, but with an added bonus – take prettiest tote bags home with you! All proceeds from this event will go towards our donation drives. All materials, including tote bags and painting supplies, will be provided at the event.",
+      date: "1st June 2025",
+      time: "1:00 pm - 3:00 pm",
+      location: "The Dome Cafe - Kalyan Nagar",
+      city: "Bangalore",
+      price: "₹250 per person",
+      link: "https://forms.gle/1xsapmjPSs6zStAm8",
+      image: "/images/events/tote3.jpg"
     }
   ];
 
@@ -99,6 +105,7 @@ export default function EventsPage() {
       <Head>
         <title>Upcoming Events | Creative Workshops</title>
         <meta name="description" content="Discover our upcoming creative events and workshops" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       {/* Hero Section */}
@@ -106,12 +113,11 @@ export default function EventsPage() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="relative py-20 overflow-hidden "
+        className="relative py-20 overflow-hidden"
       >
         <div className="relative max-w-6xl mx-auto px-4 flex flex-col items-center justify-center text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-[#5c6650] mb-4 mt-[70px] ">Upcoming Events</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-[#5c6650] mb-4 mt-[70px]">Upcoming Events</h1>
           <p className="text-xl text-[#fe89aa] font-medium">Join our creative workshops and gatherings</p>
-          
         </div>
       </motion.div>
 
@@ -138,6 +144,7 @@ export default function EventsPage() {
                       ? 'bg-[#5c6650] text-white shadow-md'
                       : 'bg-white text-[#5c6650] hover:bg-gray-100 shadow-sm'
                   }`}
+                  aria-label={`Filter events by ${city}`}
                 >
                   {city}
                 </motion.button>
@@ -160,15 +167,23 @@ export default function EventsPage() {
               whileHover={{ y: -5 }}
               className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full border border-gray-100"
             >
-              {/* Event Header */}
-              <div className="relative h-48 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#7c856c] to-[#ffa5c0] opacity-80"></div>
+              {/* Event Header with Image */}
+              <div className="relative h-48 w-full overflow-hidden">
+                <Image
+                  src={event.image}
+                  alt={event.title}
+                  width={400}
+                  height={200}
+                  className="w-full h-full object-cover"
+                  priority={false}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#fe89aa] via-[#ffa5c0] to-[#fe89aa]"></div>
-                <div className="relative p-6 h-full flex flex-col justify-between">
-                  <div>
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <div className="flex justify-between items-end">
                     <motion.span 
                       whileHover={{ scale: 1.05 }}
-                      className={`inline-block px-3 py-1 rounded-full text-sm font-bold mb-2 ${
+                      className={`inline-block px-3 py-1 rounded-full text-sm font-bold ${
                         event.price === 'Free Entry' 
                           ? 'bg-[#7c856c] text-white' 
                           : 'bg-[#ffa5c0] text-white'
@@ -176,20 +191,22 @@ export default function EventsPage() {
                     >
                       {event.price}
                     </motion.span>
-                    <h2 className="text-2xl font-bold text-white">{event.title}</h2>
-                  </div>
-                  <div className="flex items-center">
-                    <svg className="w-5 h-5 mr-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    <span className="text-white font-medium">{event.city}</span>
+                    <div className="flex items-center">
+                      <svg className="w-4 h-4 mr-1 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      <span className="text-white text-sm font-medium">{event.city}</span>
+                    </div>
                   </div>
                 </div>
               </div>
               
               {/* Event Content */}
               <div className="p-6 flex flex-col flex-grow">
+                {/* Title */}
+                <h2 className="text-[#5c6650] text-[25px] font-bold mb-4 h-18 line-clamp-2">{event.title}</h2>
+                
                 {/* Date & Time */}
                 <div className="flex items-center mb-4 p-3 bg-[#f8f9f7] rounded-lg">
                   <svg className="w-5 h-5 mr-3 text-[#ffa5c0] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -211,7 +228,7 @@ export default function EventsPage() {
                 {/* Description */}
                 <div className="mb-6 flex-grow">
                   <h3 className="text-sm font-semibold text-[#5c6650] uppercase mb-1">About the Event</h3>
-                  <p className="text-gray-700">{event.description}</p>
+                  <p className="text-gray-700 line-clamp-3">{event.description}</p>
                 </div>
                 
                 {/* CTA Button */}
@@ -224,6 +241,7 @@ export default function EventsPage() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       className="block w-full text-center bg-gradient-to-r from-[#7c856c] to-[#ffa5c0] hover:from-[#6a735a] hover:to-[#e894af] text-white px-6 py-3 rounded-lg font-medium transition duration-300 shadow-md hover:shadow-lg"
+                      aria-label={`Register for ${event.title}`}
                     >
                       {event.price === 'Free Entry' ? 'Learn More' : 'Book Now'}
                     </motion.a>
@@ -233,6 +251,7 @@ export default function EventsPage() {
                       whileTap={{ scale: 0.98 }}
                       className="block w-full text-center bg-gray-300 text-gray-600 px-6 py-3 rounded-lg font-medium cursor-not-allowed shadow-sm"
                       disabled
+                      aria-label="No registration needed for this event"
                     >
                       No Registration Needed
                     </motion.button>
@@ -252,7 +271,11 @@ export default function EventsPage() {
           >
             <div className="text-5xl mb-4">😕</div>
             <h3 className="text-2xl font-bold text-[#5c6650] mb-2">No events found</h3>
-            <p className="text-gray-600 max-w-md mx-auto">We don't have any upcoming events in {selectedCity} right now. Please check back later or try another city.</p>
+            <p className="text-gray-600 max-w-md mx-auto">
+              {selectedCity === 'All' 
+                ? "We don't have any upcoming events right now. Please check back later."
+                : `We don't have any upcoming events in ${selectedCity} right now. Please check back later or try another city.`}
+            </p>
           </motion.div>
         )}
       </div>

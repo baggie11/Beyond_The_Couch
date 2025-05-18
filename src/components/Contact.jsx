@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 import { Mail, User, MessageSquare, Send, Heart, Clock } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ const ContactForm = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,20 +20,47 @@ const ContactForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
-      alert(`Thank you, ${formData.name}! We'll contact you soon.`);
-      setFormData({
-        name: '',
-        email: '',
-        message: ''
+    setSubmitStatus(null);
+
+    try {
+      // Initialize EmailJS (you should do this once in your app, maybe in a useEffect)
+      emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_USER_ID);
+
+      const response = await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message
+        }
+      );
+
+      if (response.status === 200) {
+        setSubmitStatus({
+          success: true,
+          message: `Thank you, ${formData.name}! We'll contact you soon.`
+        });
+        setFormData({
+          name: '',
+          email: '',
+          message: ''
+        });
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setSubmitStatus({
+        success: false,
+        message: 'Something went wrong. Please try again later.'
       });
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -39,26 +68,7 @@ const ContactForm = () => {
       {/* Enhanced Background */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         {/* Abstract watercolor background */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute -left-20 -top-20 w-[800px] h-[800px] rounded-full" 
-               style={{ background: 'radial-gradient(circle, rgba(255,142,180,0.4) 0%, rgba(255,255,255,0) 70%)' }}></div>
-          <div className="absolute -right-40 top-1/3 w-[600px] h-[600px] rounded-full" 
-               style={{ background: 'radial-gradient(circle, rgba(85,107,47,0.3) 0%, rgba(255,255,255,0) 70%)' }}></div>
-          <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full" 
-               style={{ background: 'radial-gradient(circle, rgba(255,142,180,0.2) 0%, rgba(255,255,255,0) 70%)' }}></div>
-        </div>
-
-     
-        
         {/* Floating organic shapes */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/5 w-40 h-40 rounded-full opacity-10 blur-xl" 
-               style={{ backgroundColor: '#ff8eb4', transform: 'rotate(45deg)' }}></div>
-          <div className="absolute top-1/3 right-1/4 w-32 h-32 rounded-full opacity-10 blur-xl" 
-               style={{ backgroundColor: '#556b2f' }}></div>
-          <div className="absolute bottom-1/5 left-1/3 w-48 h-48 opacity-10 blur-xl" 
-               style={{ backgroundColor: '#ff8eb4', clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)' }}></div>
-        </div>
       </div>
 
       {/* Main content container */}
@@ -66,11 +76,11 @@ const ContactForm = () => {
         {/* Header Section with floating animation */}
         <div className="text-center mb-12 pb-6 mt-[90px] animate-float">
           <h1 className="font-serif text-5xl md:text-6xl" 
-              style={{ color: '#ff8eb4', fontStyle: 'italic', marginBottom: '0.5rem', textShadow: '2px 2px 4px rgba(0,0,0,0.1)' }}>
+              style={{ color: '#fe89aa', fontStyle: 'italic', marginBottom: '0.5rem', textShadow: '2px 2px 4px rgba(0,0,0,0.1)' }}>
             Get In Touch
           </h1>
           <p className="text-lg max-w-2xl mx-auto" 
-             style={{ color: '#556b2f', textShadow: '1px 1px 2px rgba(255,255,255,0.8)' }}>
+             style={{ color: '#5c6650', textShadow: '1px 1px 2px rgba(255,255,255,0.8)' }}>
             We're here to help and answer any questions you might have. 
             We look forward to hearing from you!
           </p>
@@ -81,36 +91,36 @@ const ContactForm = () => {
           {/* Left Column - Contact Info */}
           <div className="lg:col-span-1">
             <div className="bg-white/90 backdrop-blur-sm p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300" 
-                 style={{ borderLeft: '4px solid #556b2f', borderBottom: '2px solid rgba(255, 142, 180, 0.3)' }}>
-              <div className="flex items-center mb-6 pb-4" style={{ borderBottom: '1px solid rgba(255, 142, 180, 0.3)' }}>
-                <div className="p-3 rounded-full mr-4" style={{ backgroundColor: 'rgba(255, 142, 180, 0.2)' }}>
-                  <MessageSquare style={{ color: '#ff8eb4' }} size={20} />
+                 style={{ borderLeft: '4px solid #5c6650', borderBottom: '2px solid rgba(254, 137, 170, 0.3)' }}>
+              <div className="flex items-center mb-6 pb-4" style={{ borderBottom: '1px solid rgba(254, 137, 170, 0.3)' }}>
+                <div className="p-3 rounded-full mr-4" style={{ backgroundColor: 'rgba(254, 137, 170, 0.2)' }}>
+                  <MessageSquare style={{ color: '#fe89aa' }} size={20} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold" style={{ color: '#556b2f' }}>Contact Information</h3>
+                  <h3 className="text-xl font-semibold" style={{ color: '#5c6650' }}>Contact Information</h3>
                   <p className="text-sm text-gray-600">Fill out the form or reach us directly</p>
                 </div>
               </div>
 
               <div className="space-y-6">
                 <div className="flex items-start hover:scale-[1.02] transition-transform duration-200">
-                  <div className="p-2 rounded-md mr-4" style={{ backgroundColor: 'rgba(255, 142, 180, 0.1)' }}>
-                    <Mail style={{ color: '#ff8eb4' }} size={18} />
+                  <div className="p-2 rounded-md mr-4" style={{ backgroundColor: 'rgba(254, 137, 170, 0.1)' }}>
+                    <Mail style={{ color: '#fe89aa' }} size={18} />
                   </div>
                   <div>
-                    <h4 className="font-medium" style={{ color: '#556b2f' }}>Email Us</h4>
-                    <a href="mailto:info.beyondthecouch@gmail.com" style={{ color: '#ff8eb4' }} className="hover:underline">
+                    <h4 className="font-medium" style={{ color: '#5c6650' }}>Email Us</h4>
+                    <a href="mailto:info.beyondthecouch@gmail.com" style={{ color: '#fe89aa' }} className="hover:underline">
                       info.beyondthecouch@gmail.com
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start hover:scale-[1.02] transition-transform duration-200">
-                  <div className="p-2 rounded-md mr-4" style={{ backgroundColor: 'rgba(255, 142, 180, 0.1)' }}>
-                    <Clock style={{ color: '#ff8eb4' }} size={18} />
+                  <div className="p-2 rounded-md mr-4" style={{ backgroundColor: 'rgba(254, 137, 170, 0.1)' }}>
+                    <Clock style={{ color: '#fe89aa' }} size={18} />
                   </div>
                   <div>
-                    <h4 className="font-medium" style={{ color: '#556b2f' }}>Response Time</h4>
+                    <h4 className="font-medium" style={{ color: '#5c6650' }}>Response Time</h4>
                     <p className="text-gray-600">
                       We typically respond to all inquiries within 24-48 hours
                     </p>
@@ -118,9 +128,9 @@ const ContactForm = () => {
                 </div>
               </div>
 
-              <div className="mt-8 pt-4" style={{ borderTop: '1px solid rgba(255, 142, 180, 0.3)' }}>
+              <div className="mt-8 pt-4" style={{ borderTop: '1px solid rgba(254, 137, 170, 0.3)' }}>
                 <div className="flex items-center justify-center space-x-2 animate-pulse">
-                  <Heart style={{ color: '#ff8eb4' }} size={16} fill="currentColor" />
+                  <Heart style={{ color: '#fe89aa' }} size={16} fill="currentColor" />
                   <span className="text-sm text-gray-600">We're here to support you</span>
                 </div>
               </div>
@@ -130,17 +140,24 @@ const ContactForm = () => {
           {/* Right Column - Contact Form */}
           <div className="lg:col-span-2">
             <div className="bg-white/90 backdrop-blur-sm p-6 rounded-lg shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300">            
-              <div className="mb-6 pb-4" style={{ borderBottom: '1px solid rgba(255, 142, 180, 0.3)' }}>
+              <div className="mb-6 pb-4" style={{ borderBottom: '1px solid rgba(254, 137, 170, 0.3)' }}>
                 <div className="flex items-center">
-                  <div className="p-2 rounded-md mr-3" style={{ backgroundColor: 'rgba(255, 142, 180, 0.2)' }}>
-                    <MessageSquare style={{ color: '#ff8eb4' }} size={20} />
+                  <div className="p-2 rounded-md mr-3" style={{ backgroundColor: 'rgba(254, 137, 170, 0.2)' }}>
+                    <MessageSquare style={{ color: '#fe89aa' }} size={20} />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-serif font-semibold" style={{ color: '#556b2f' }}>Send Us a Message</h2>
-                    <p className="text-sm" style={{ color: '#ff8eb4' }}>We'd love to hear from you!</p>
+                    <h2 className="text-2xl font-serif font-semibold" style={{ color: '#5c6650' }}>Send Us a Message</h2>
+                    <p className="text-sm" style={{ color: '#fe89aa' }}>We'd love to hear from you!</p>
                   </div>
                 </div>
               </div>
+              
+              {/* Status Message */}
+              {submitStatus && (
+                <div className={`mb-6 p-4 rounded-lg ${submitStatus.success ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
+                  {submitStatus.message}
+                </div>
+              )}
                 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
@@ -157,11 +174,11 @@ const ContactForm = () => {
                       required
                       className="w-full pl-10 pr-3 py-3 rounded-lg bg-white/70 border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:border-transparent transition-all hover:bg-white"
                       style={{ 
-                        focusRing: 'rgba(255, 142, 180, 0.3)',
+                        focusRing: 'rgba(254, 137, 170, 0.3)',
                       }}
                     />
                     <label className={`absolute left-10 transition-all duration-300 pointer-events-none ${formData.name ? 'top-0 text-xs' : 'top-3 text-gray-400'}`}
-                      style={{ color: formData.name ? '#ff8eb4' : '' }}>
+                      style={{ color: formData.name ? '#fe89aa' : '' }}>
                       {formData.name ? 'Your Name' : 'Name'}
                     </label>
                   </div>
@@ -179,11 +196,11 @@ const ContactForm = () => {
                       required
                       className="w-full pl-10 pr-3 py-3 rounded-lg bg-white/70 border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:border-transparent transition-all hover:bg-white"
                       style={{ 
-                        focusRing: 'rgba(255, 142, 180, 0.3)',
+                        focusRing: 'rgba(254, 137, 170, 0.3)',
                       }}
                     />
                     <label className={`absolute left-10 transition-all duration-300 pointer-events-none ${formData.email ? 'top-0 text-xs' : 'top-3 text-gray-400'}`}
-                      style={{ color: formData.email ? '#ff8eb4' : '' }}>
+                      style={{ color: formData.email ? '#fe89aa' : '' }}>
                       {formData.email ? 'Your Email' : 'Email'}
                     </label>
                   </div>
@@ -199,11 +216,11 @@ const ContactForm = () => {
                     rows="5"
                     className="w-full px-4 py-3 rounded-lg bg-white/70 border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:border-transparent transition-all hover:bg-white"
                     style={{ 
-                      focusRing: 'rgba(255, 142, 180, 0.3)',
+                      focusRing: 'rgba(254, 137, 170, 0.3)',
                     }}
                   />
                   <label className={`absolute left-4 transition-all duration-300 pointer-events-none ${formData.message ? 'top-0 text-xs' : 'top-3 text-gray-400'}`}
-                    style={{ color: formData.message ? '#ff8eb4' : '' }}>
+                    style={{ color: formData.message ? '#fe89aa' : '' }}>
                     {formData.message ? 'Your Message' : 'Message'}
                   </label>
                 </div>
@@ -213,8 +230,8 @@ const ContactForm = () => {
                   disabled={isSubmitting}
                   className="w-full py-3 px-4 rounded-lg text-white flex items-center justify-center transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
                   style={{ 
-                    backgroundColor: isSubmitting ? 'rgba(85, 107, 47, 0.7)' : '#556b2f',
-                    ":hover": { backgroundColor: 'rgba(85, 107, 47, 0.9)' } 
+                    backgroundColor: isSubmitting ? 'rgba(92, 102, 80, 0.7)' : '#5c6650',
+                    ":hover": { backgroundColor: 'rgba(92, 102, 80, 0.9)' } 
                   }}
                 >
                   {isSubmitting ? (
@@ -240,9 +257,9 @@ const ContactForm = () => {
 
       {/* Floating decorative elements */}
       <div className="absolute bottom-10 left-10 w-16 h-16 rounded-full opacity-10" 
-           style={{ backgroundColor: '#ff8eb4', filter: 'blur(20px)' }}></div>
+           style={{ backgroundColor: '#fe89aa', filter: 'blur(20px)' }}></div>
       <div className="absolute top-20 right-20 w-24 h-24 rounded-full opacity-10" 
-           style={{ backgroundColor: '#556b2f', filter: 'blur(20px)' }}></div>
+           style={{ backgroundColor: '#5c6650', filter: 'blur(20px)' }}></div>
     </div>
   );
 };

@@ -27,16 +27,16 @@ export default function Footer() {
             <div>
               <h3 className="text-lg font-semibold mb-4 text-[#5c6650]">Explore</h3>
               <ul className="space-y-2">
-                <li><FooterLink href="/">Home</FooterLink></li>
-                <li><FooterLink href="/about">About Us</FooterLink></li>
+                <li><FooterLink href="/#home">Home</FooterLink></li>
+                <li><FooterLink href="/#about">About Us</FooterLink></li>
                 <li><FooterLink href="/events">Events</FooterLink></li>
               </ul>
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4 text-[#5c6650]">Connect</h3>
               <ul className="space-y-2">
-                <li><FooterLink href="/team">Our Team</FooterLink></li>
-                <li><FooterLink href="/gallery">Gallery</FooterLink></li>
+                <li><FooterLink href="/#team">Our Team</FooterLink></li>
+                <li><FooterLink href="/#gallery">Gallery</FooterLink></li>
                 <li><FooterLink href="/contact">Contact</FooterLink></li>
               </ul>
             </div>
@@ -49,7 +49,7 @@ export default function Footer() {
               Help us create greater access to mental health resources.
             </p>
             <Link 
-              href="/join" 
+              href="/joinus" 
               className="inline-block px-5 py-2 bg-[#fe89aa] text-white rounded-full font-medium hover:bg-[#e67899] transition-colors"
             >
               Join Us
@@ -74,6 +74,20 @@ export default function Footer() {
 
 // Reusable components
 function FooterLink({ href, children }) {
+  const isHashLink = href.startsWith('/#');
+  
+  if (isHashLink) {
+    return (
+      <Link 
+        href={href}
+        scroll={false}
+        className="text-[#5c6650] hover:text-[#fe89aa] transition-colors"
+      >
+        {children}
+      </Link>
+    );
+  }
+
   return (
     <Link 
       href={href} 
@@ -83,8 +97,6 @@ function FooterLink({ href, children }) {
     </Link>
   );
 }
-
-
 
 function SocialIcon({ icon }) {
   const icons = {
@@ -139,6 +151,3 @@ function SocialIcon({ icon }) {
     </a>
   );
 }
-
-
-

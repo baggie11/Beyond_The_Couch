@@ -16,6 +16,7 @@ const events = [
       { type: 'image', url: "/images/volfest/pic3.jpg" }
     ],
     color: "bg-[#e88fac]",
+    category: "Community Event"
   },
   {
     id: 2,
@@ -29,6 +30,7 @@ const events = [
       { type: 'video', url: "/images/aghai/vid2.mp4", thumbnail: "/images/aghai/vid2-thumb.jpg" }
     ],
     color: "bg-[#e88fac]",
+    category: "Fundraiser"
   },
   {
     id: 3,
@@ -43,6 +45,7 @@ const events = [
       { type: 'image', url: "/images/mumbai/pic4.png" }
     ],
     color: "bg-[#e88fac]",
+    category: "Art Workshop"
   },
 ];
 
@@ -85,10 +88,10 @@ function MediaViewer({ mediaItems, initialIndex = 0, onClose }) {
   const currentMedia = mediaItems[currentIndex];
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 bg-[#505c4a]/95 backdrop-blur-sm flex items-center justify-center p-4">
       <button 
         onClick={onClose}
-        className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+        className="absolute top-4 right-4 p-2 rounded-full bg-[#e88fac] hover:bg-[#d87a9c] transition-colors shadow-lg"
       >
         <X className="h-6 w-6 text-white" />
       </button>
@@ -99,7 +102,7 @@ function MediaViewer({ mediaItems, initialIndex = 0, onClose }) {
             e.stopPropagation();
             prevMedia();
           }}
-          className="absolute left-4 p-2 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
+          className="absolute left-4 p-2 sm:p-3 rounded-full bg-[#e88fac] hover:bg-[#d87a9c] transition-colors z-10 shadow-lg"
         >
           <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
         </button>
@@ -109,14 +112,14 @@ function MediaViewer({ mediaItems, initialIndex = 0, onClose }) {
             <img 
               src={currentMedia.url} 
               alt={`Event media ${currentIndex + 1}`}
-              className="max-w-full max-h-full object-contain rounded-lg"
+              className="max-w-full max-h-full object-contain rounded-lg border-4 border-white shadow-2xl"
             />
           ) : (
             <video
               ref={videoRef}
               src={currentMedia.url}
               controls
-              className="max-w-full max-h-full object-contain rounded-lg"
+              className="max-w-full max-h-full object-contain rounded-lg border-4 border-white shadow-2xl"
               poster={currentMedia.thumbnail}
             />
           )}
@@ -127,7 +130,7 @@ function MediaViewer({ mediaItems, initialIndex = 0, onClose }) {
             e.stopPropagation();
             nextMedia();
           }}
-          className="absolute right-4 p-2 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
+          className="absolute right-4 p-2 sm:p-3 rounded-full bg-[#e88fac] hover:bg-[#d87a9c] transition-colors z-10 shadow-lg"
         >
           <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
         </button>
@@ -138,7 +141,7 @@ function MediaViewer({ mediaItems, initialIndex = 0, onClose }) {
           <button
             key={idx}
             onClick={() => setCurrentIndex(idx)}
-            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all ${currentIndex === idx ? 'bg-[#e88fac]' : 'bg-white/30'}`}
+            className={`w-3 h-3 rounded-full transition-all ${currentIndex === idx ? 'bg-[#e88fac]' : 'bg-white/50'}`}
           />
         ))}
       </div>
@@ -174,7 +177,8 @@ function EventCard({ event, onMediaClick }) {
         className={`group relative rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 ${isExpanded ? 'shadow-2xl' : 'shadow-lg hover:shadow-xl'}`}
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <div className="absolute inset-0 rounded-2xl sm:rounded-3xl p-[2px] bg-gradient-to-br from-[#e88fac] to-[#505c4a] opacity-70 group-hover:opacity-100 transition-opacity duration-300 z-0"></div>
+        {/* Gradient border with theme colors */}
+        <div className="absolute inset-0 rounded-2xl sm:rounded-3xl p-[2px] bg-gradient-to-br from-[#e88fac] to-[#505c4a] opacity-80 group-hover:opacity-100 transition-opacity duration-300 z-0"></div>
         
         <div className={`relative bg-white rounded-[calc(1rem-2px)] sm:rounded-[calc(1.5rem-2px)] overflow-hidden transition-all duration-500 ease-out ${
           isExpanded ? 'scale-105' : 'group-hover:scale-[1.02]'
@@ -185,7 +189,7 @@ function EventCard({ event, onMediaClick }) {
           }`}>
             <div className="flex flex-col md:flex-row h-[300px]">
               {/* Event Media */}
-              <div className="relative w-full md:w-1/3 sm:h-64 md:h-auto overflow-hidden bg-gray-100">
+              <div className="relative w-full md:w-1/3 sm:h-64 md:h-auto overflow-hidden bg-[#f8f9f7]">
                 {event.media[0].type === 'image' ? (
                   <img 
                     src={event.media[0].url} 
@@ -210,33 +214,33 @@ function EventCard({ event, onMediaClick }) {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/80 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#e88fac" className="w-5 h-5 sm:w-6 sm:h-6 ml-1">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#e88fac] flex items-center justify-center shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-5 h-5 sm:w-6 sm:h-6 ml-1">
                           <path d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
                         </svg>
                       </div>
                     </div>
                   </div>
                 )}
-                <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#505c4a]/80 to-transparent"></div>
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-lg sm:text-xl font-bold">{event.title}</h3>
+                  <h3 className="text-lg sm:text-xl font-bold drop-shadow-md">{event.title}</h3>
                   <div className="flex items-center text-xs sm:text-sm mt-1">
-                    <MapPin className="h-3 w-3 mr-1" />
+                    <MapPin className="h-3 w-3 mr-1 text-[#e88fac]" />
                     <span>{event.location}</span>
                   </div>
                 </div>
               </div>
               
               {/* Event Details */}
-              <div className="w-full md:w-2/3 p-4 sm:p-6 flex flex-col">
+              <div className="w-full md:w-2/3 p-4 sm:p-6 flex flex-col bg-gradient-to-br from-white to-[#f8f9f7]">
                 <div className="flex justify-between items-start mb-3 sm:mb-4">
-                  <div className="flex items-center bg-[#e88fac]/10 px-2 sm:px-3 py-1 rounded-full">
+                  <div className="flex items-center bg-[#e88fac]/10 px-2 sm:px-3 py-1 rounded-full border border-[#e88fac]/20">
                     <Clock className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 text-[#e88fac]" />
                     <span className="text-xs sm:text-sm font-medium text-[#505c4a]">{event.date}</span>
                   </div>
                   {event.category && (
-                    <span className="inline-block px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-[#e88fac]/20 text-[#505c4a]">
+                    <span className="inline-block px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-[#505c4a] text-white">
                       {event.category}
                     </span>
                   )}
@@ -249,9 +253,9 @@ function EventCard({ event, onMediaClick }) {
                 </div>
                 
                 <div className="flex justify-between items-center mt-auto pt-3 sm:pt-4 border-t border-[#e88fac]/20">
-                  <button className="flex items-center text-xs sm:text-sm font-medium text-[#e88fac] hover:text-[#d87a9c] transition-colors">
+                  <button className="flex items-center text-xs sm:text-sm font-medium text-[#e88fac] hover:text-[#d87a9c] transition-colors group">
                     View Details
-                    <ChevronDown className="h-3 w-3 sm:h-4 sm:w-4 ml-1" />
+                    <ChevronDown className="h-3 w-3 sm:h-4 sm:w-4 ml-1 group-hover:translate-y-0.5 transition-transform" />
                   </button>
                 </div>
               </div>
@@ -263,7 +267,7 @@ function EventCard({ event, onMediaClick }) {
             isExpanded ? 'opacity-100' : 'opacity-0 absolute inset-0'
           }`}>
             {/* Hero Section with improved gradient */}
-            <div className="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden bg-gray-100">
+            <div className="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden bg-[#505c4a]">
               {event.media[0].type === 'image' ? (
                 <img 
                   src={event.media[0].url} 
@@ -304,9 +308,9 @@ function EventCard({ event, onMediaClick }) {
                     e.stopPropagation();
                     setIsExpanded(false);
                   }}
-                  className="p-2 sm:p-3 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all shadow-md hover:scale-110"
+                  className="p-2 sm:p-3 rounded-full bg-[#e88fac] hover:bg-[#d87a9c] text-white transition-all shadow-lg hover:scale-110"
                 >
-                  <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+                  <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5" />
                 </button>
               </div>
               
@@ -321,14 +325,14 @@ function EventCard({ event, onMediaClick }) {
                   {event.title}
                 </h3>
                 <div className="flex items-center text-white/90">
-                  <MapPin className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2" />
+                  <MapPin className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2 text-[#e88fac]" />
                   <span className="text-sm sm:text-lg">{event.location}</span>
                 </div>
               </div>
             </div>
             
             {/* Enhanced Content Section */}
-            <div className="p-4 sm:p-6 md:p-8 bg-gradient-to-b from-white to-[#f9f9f9]">
+            <div className="p-4 sm:p-6 md:p-8 bg-gradient-to-b from-white to-[#f8f9f7]">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
                 {/* Main Content */}
                 <div className="lg:col-span-2">
@@ -373,8 +377,8 @@ function EventCard({ event, onMediaClick }) {
                                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                                 />
                                 <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/80 flex items-center justify-center transform transition-all group-hover:scale-110">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#e88fac" className="w-4 h-4 sm:w-5 sm:h-5 ml-1">
+                                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#e88fac] flex items-center justify-center transform transition-all group-hover:scale-110 shadow-md">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-4 h-4 sm:w-5 sm:h-5 ml-1">
                                       <path d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
                                     </svg>
                                   </div>
@@ -422,8 +426,7 @@ function EventCard({ event, onMediaClick }) {
                     </div>
                   </div>
 
-                  {/* Additional Info Box */}
-                 
+               
                 </div>
               </div>
             </div>
@@ -445,12 +448,12 @@ export default function EventsPage() {
   };
 
   return (
-    <div className="min-h-screen text-[#505c4a]">
+    <div className="min-h-screen text-[#505c4a] bg-[#f8f9f7]">
       {/* Decorative elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-0 w-64 h-64 rounded-full bg-[#e88fac]/10 blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-[#e88fac]/10 blur-3xl translate-x-1/2 translate-y-1/2"></div>
-        <div className="absolute top-1/4 right-1/4 w-80 h-80 rounded-full bg-[#505c4a]/10 blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-[#505c4a]/10 blur-3xl translate-x-1/2 translate-y-1/2"></div>
+        <div className="absolute top-1/4 right-1/4 w-80 h-80 rounded-full bg-[#e88fac]/10 blur-3xl"></div>
       </div>
 
       {/* Media Viewer Modal */}
@@ -467,7 +470,7 @@ export default function EventsPage() {
         <div className="text-center mb-12 sm:mb-16">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 text-[#505c4a]">Our Projects</h1>
           <p className="max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-[#5c6650]">
-            Discover our exciting projects.
+            Discover our exciting projects and community initiatives
           </p>
         </div>
         

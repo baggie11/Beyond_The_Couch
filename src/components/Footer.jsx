@@ -1,4 +1,6 @@
+"use client"
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Footer() {
   return (
@@ -75,12 +77,26 @@ export default function Footer() {
 // Reusable components
 function FooterLink({ href, children }) {
   const isHashLink = href.startsWith('/#');
+  const router = useRouter();
   
   if (isHashLink) {
+    const handleClick = (e) => {
+      // If we're not on the home page, let the default Link behavior handle the navigation
+      if (router.pathname !== '/') return;
+      
+      // If we're on the home page, prevent default and scroll to section
+      e.preventDefault();
+      const id = href.replace('/#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+
     return (
       <Link 
         href={href}
-        scroll={false}
+        onClick={handleClick}
         className="text-[#5c6650] hover:text-[#fe89aa] transition-colors"
       >
         {children}

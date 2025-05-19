@@ -10,7 +10,7 @@ export default function RolesAndNotes() {
     <div className="relative min-h-screen">
       {/* Background Design */}
       {/* Main Content */}
-      <div className="relative z-10">
+      <div className="relative">
         <div className="fixed top-0 left-[300px] w-full z-10">
           <Button />
         </div>

@@ -161,6 +161,7 @@ const Navbar = () => {
               <NavButton href="/projects">Projects</NavButton>
               <NavButton targetId="team">Team</NavButton>
               <NavButton targetId="gallery">Gallery</NavButton>
+              <NavButton href ="/storybooks">Story Books</NavButton>
               <NavButton href="/contact">Contact</NavButton>
             </div>
 

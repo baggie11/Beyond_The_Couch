@@ -34,7 +34,7 @@ const events = [
   },
   {
     id: 3,
-    title: "Mumbai canvas painting fundraiser",
+    title: "Mumbai Canvas Painting Fundraiser",
     description: "Our Canvas Painting Fundraiser marked the launch event of our initiative and was a heartwarming success. I'm thrilled to share that we raised over ₹17,700, all of which will directly support our cause.This event was held in collaboration with Antigone, our sister organization, and brought together individuals of all age groups in a vibrant and inclusive environment. From young kids to adults, everyone was deeply engrossed in painting their canvases, expressing creativity and compassion in equal measure. What made the day truly special was that it wasn't just about the art people created—it was about the impact they contributed to. The joy, unity, and generosity on display reflected the spirit of our mission and set a beautiful tone for future events.",
     date: "May 10, 2025",
     location: "Poco Loco, Khar",
@@ -45,7 +45,7 @@ const events = [
       { type: 'image', url: "/images/mumbai/pic4.png" }
     ],
     color: "bg-[#e88fac]",
-    category: "Art Workshop"
+    category: "Fundraiser"
   },
 ];
 

@@ -12,7 +12,7 @@ const imageBaseURL = '/images/';
 const GallerySwiper = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const controls = useAnimation();
-  const images = Array.from({ length: 14 }, (_, index) => {
+  const images = Array.from({ length: 10 }, (_, index) => {
     const imgNumber = index + 2;
     return {
       src: `${imageBaseURL}pic${imgNumber}.jpg`,
@@ -159,7 +159,6 @@ const GallerySwiper = () => {
                 >
                   <motion.img
                     src={item.src}
-                    alt={item.title}
                     className="w-full h-[400px] object-cover rounded-2xl"
                     initial={{ scale: 1 }}
                     whileHover={{ scale: 1.1 }}

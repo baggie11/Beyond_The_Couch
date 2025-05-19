@@ -289,7 +289,7 @@ const StorybookInitiative = () => {
                 <motion.div 
                   key={item} 
                   whileHover={{ scale: 1.05 }}
-                  className="bg-[#fe89aa]/10 rounded-xl aspect-square flex items-center justify-center overflow-hidden bg-gray-100" // Added bg-gray-100 fallback
+                  className="bg-[#fe89aa]/10 rounded-xl aspect-square flex items-center justify-center overflow-hidden " // Added bg-gray-100 fallback
                 >
                   <motion.img 
                     src={`/images/storybooks/gallery-${item}.jpg`} 

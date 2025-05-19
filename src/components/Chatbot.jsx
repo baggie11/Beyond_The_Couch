@@ -5,110 +5,69 @@ import { MessageSquare, Send, X, ChevronDown, ChevronUp } from 'lucide-react';
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { text: "Welcome to Beyond the Couch! I can tell you about our initiatives, volunteer roles, and more. How can I help?", sender: "bot" }
+    { text: "Hello! I'm here to tell you about Beyond the Couch. We're a mental health initiative using art and storytelling. What would you like to know?", sender: "bot" }
   ]);
   const [inputText, setInputText] = useState("");
   const [isMinimized, setIsMinimized] = useState(false);
   const messagesEndRef = useRef(null);
-  const [conversationContext, setConversationContext] = useState(null);
 
-  // Dynamic response handler with context awareness
+  // Simplified response handler
   const getBotResponse = useCallback((userInput) => {
     const lowerInput = userInput.toLowerCase().trim();
     const now = new Date();
     const hour = now.getHours();
     const timeBasedGreeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
-    // Context continuation
-    if (conversationContext) {
-      switch(conversationContext.topic) {
-        case 'storybooks':
-          if (lowerInput.includes('distribution') || lowerInput.includes('get')) {
-            return "We distribute through schools and community centers. You can request copies at info.beyondthecouch@gmail.com";
-          }
-          if (lowerInput.includes('create') || lowerInput.includes('make')) {
-            return "We welcome volunteers to help create storybooks! Email us your portfolio if you're an artist/writer.";
-          }
-          setConversationContext(null);
-          return "Our storybooks help children understand emotions. Would you like to know about distribution or creation?";
-
-        case 'workshops':
-          if (lowerInput.includes('when') || lowerInput.includes('date')) {
-            return "Our next workshop is June 15th about art therapy techniques.";
-          }
-          if (lowerInput.includes('join') || lowerInput.includes('attend')) {
-            return "Register at beyondthecouch.org/events. Student discounts available!";
-          }
-          setConversationContext(null);
-          return "We host monthly workshops. Interested in dates or registration?";
-
-        case 'volunteer':
-          if (lowerInput.includes('form') || lowerInput.includes('apply')) {
-            return "Get the form at beyondthecouch.org/volunteer. Minimum 4-month commitment required.";
-          }
-          setConversationContext(null);
-          return "Volunteers help with events, content creation, and outreach. Need the application link?";
-
-        default:
-          setConversationContext(null);
-      }
-    }
-
     // Response handlers in priority order
     const responseHandlers = [
       {
         condition: () => ['hello', 'hi', 'hey', 'greet'].some(g => lowerInput.includes(g)),
-        response: () => `${timeBasedGreeting}! 😊 How can I help you with Beyond the Couch today?`
+        response: () => `${timeBasedGreeting}! 😊 How can I help you today?`
       },
       {
         condition: () => ['how are you', "what's up"].some(p => lowerInput.includes(p)),
-        response: () => "I'm an AI excited to share about mental health initiatives! What would you like to know?"
+        response: () => "I'm just a bot, but I'm happy to share about Beyond the Couch!"
       },
       {
         condition: () => ['thank', 'thanks', 'appreciate'].some(p => lowerInput.includes(p)),
-        response: () => ["You're welcome!", "Happy to help!", "My pleasure!"][Math.floor(Math.random() * 3)]
+        response: () => "You're welcome! Let me know if you have other questions."
       },
       {
         condition: () => ['bye', 'goodbye', 'see you'].some(p => lowerInput.includes(p)),
-        response: () => "Goodbye! Check out our storybooks at beyondthecouch.org!"
+        response: () => "Have a wonderful day! Remember to check out our website for more info."
       },
       {
         condition: () => ['storybook', 'coloring', 'children', 'book'].some(p => lowerInput.includes(p)),
-        response: () => {
-          setConversationContext({ topic: 'storybooks' });
-          return "We create mental health storybooks for children 4-8 years old. Interested in distribution or creation?";
-        }
-      },
-      {
-        condition: () => ['workshop', 'event', 'meeting', 'mixer'].some(p => lowerInput.includes(p)),
-        response: () => {
-          setConversationContext({ topic: 'workshops' });
-          return "We host creative workshops and networking mixers. Want details about upcoming events or registration?";
-        }
-      },
-      {
-        condition: () => ['volunteer', 'help', 'join', 'participate'].some(p => lowerInput.includes(p)),
-        response: () => {
-          setConversationContext({ topic: 'volunteer' });
-          return "Volunteers commit 5-10 hours/month helping with:\n- Events\n- Content creation\n- Outreach\nNeed the application form?";
-        }
-      },
-      {
-        condition: () => ['contact', 'email', 'reach', 'connect'].some(p => lowerInput.includes(p)),
-        response: () => "Contact us at:\nEmail: info.beyondthecouch@gmail.com\nInstagram: @beyondthecouch\nWhich method do you prefer?"
+        response: () => "We create mental health storybooks for children aged 4-8. These books help kids understand emotions in a fun, accessible way."
       },
       {
         condition: () => ['what', 'who', 'beyond the couch'].some(p => lowerInput.includes(p)),
-        response: () => "Beyond the Couch is a youth-led initiative using art and storytelling to:\n1. Create mental health resources\n2. Provide student opportunities\n3. Host creative workshops\nWhat interests you?"
+        response: () => "Beyond the Couch is a youth-led initiative that:\n\n• Creates mental health resources through art\n• Provides creative opportunities\n• Builds mental health awareness\n\nWe believe in making mental health support accessible to all."
+      },
+      {
+        condition: () => ['contact', 'email', 'reach', 'connect'].some(p => lowerInput.includes(p)),
+        response: () => "You can reach us at:\n\n📧 info.beyondthecouch@gmail.com\n📱 @beyondthecouch on Instagram\n\nWe'd love to hear from you!"
+      },
+      {
+        condition: () => ['volunteer', 'help', 'join', 'participate'].some(p => lowerInput.includes(p)),
+        response: () => "We welcome volunteers! You can help with:\n\n• Content creation\n• Community outreach\n• Event support\n\nVisit our website for more details."
+      },
+      {
+        condition: () => ['mission', 'goal', 'purpose'].some(p => lowerInput.includes(p)),
+        response: () => "Our mission is to make mental health resources more accessible through creative means like art and storytelling."
+      },
+      {
+        condition: () => ['team', 'people', 'founder'].some(p => lowerInput.includes(p)),
+        response: () => "We're a team of passionate students and mental health advocates. Our team includes artists, writers, and mental health professionals."
       },
       {
         condition: () => true, // Default fallback
-        response: () => "I can tell you about:\n1. Our storybooks\n2. Workshops\n3. Volunteer opportunities\nWhat would you like to know?"
+        response: () => "I can tell you about our storybooks, mission. What would you like to know?"
       }
     ];
 
     return responseHandlers.find(h => h.condition()).response();
-  }, [conversationContext]);
+  }, []);
 
   const handleSend = useCallback(() => {
     if (!inputText.trim()) return;
@@ -147,7 +106,7 @@ const ChatBot = () => {
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
       <button 
         onClick={toggleChat}
-        className="flex items-center justify-center w-16 h-16 rounded-full bg-pink-400 hover:bg-pink-500 text-white shadow-lg transform hover:scale-105 transition-all duration-300"
+        className="flex items-center justify-center w-16 h-16 rounded-full bg-[#fe89aa] hover:bg-[#e67899] text-white shadow-lg transform hover:scale-105 transition-all duration-300"
         aria-label="Open chat"
       >
         <MessageSquare size={28} />
@@ -155,7 +114,7 @@ const ChatBot = () => {
 
       {isOpen && (
         <div className="bg-white rounded-lg shadow-xl mb-4 w-80 sm:w-96 overflow-hidden border border-gray-200 flex flex-col">
-          <div className="bg-olive-800 text-white p-4 flex justify-between items-center" style={{ backgroundColor: '#5a5d4b' }}>
+          <div className="bg-[#5c6650] text-white p-4 flex justify-between items-center">
             <div className="flex items-center">
               <MessageSquare size={20} className="mr-2" />
               <h3 className="font-serif text-lg font-medium">Beyond the Couch</h3>
@@ -181,7 +140,7 @@ const ChatBot = () => {
                     <div 
                       className={`max-w-xs p-3 rounded-lg whitespace-pre-wrap ${
                         message.sender === "user" 
-                          ? "bg-pink-400 text-white rounded-br-none" 
+                          ? "bg-[#fe89aa] text-white rounded-br-none" 
                           : "bg-gray-200 text-gray-800 rounded-bl-none"
                       }`}
                     >
@@ -199,11 +158,11 @@ const ChatBot = () => {
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  className="flex-1 p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-pink-300"
+                  className="flex-1 p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[#fe89aa]"
                 />
                 <button
                   onClick={handleSend}
-                  className="bg-pink-400 hover:bg-pink-500 text-white p-2 rounded-r-lg transition-colors"
+                  className="bg-[#fe89aa] hover:bg-[#e67899] text-white p-2 rounded-r-lg transition-colors"
                 >
                   <Send size={20} />
                 </button>

@@ -59,13 +59,25 @@ export default function EventsPage() {
       id: 5,
       title: "Tote bag painting",
       description: "This event is just another way to further our mission, but with an added bonus – take prettiest tote bags home with you! All proceeds from this event will go towards our donation drives. All materials, including tote bags and painting supplies, will be provided at the event.",
-      date: "1st June 2025",
+      date: "8th June 2025",
       time: "1:00 pm - 3:00 pm",
-      location: "The Dome Cafe - Kalyan Nagar",
+      location: "The Story Cafe, Bangalore",
       city: "Bangalore",
       price: "₹250 per person",
       link: "https://forms.gle/1xsapmjPSs6zStAm8",
       image: "/images/events/tote3.jpg"
+    },
+    {
+      id: 6,
+      title: "Jewellery Making Event",
+      description: "All proceeds from this event will go towards our donation drives. All materials, including jewellery making supplies, will be provided at the event.",
+      date: "8th June, 2025",
+      time: "12:30 pm to 2:30 pm",
+      location: "Sector 7 Social, Chandigarh",
+      city: "Chandigarh",
+      price: "₹210 per person",
+      link: "https://forms.gle/XAtd4Fm8oe2qyuo48",
+      image: "/images/events/tote2.jpg"
     }
   ];
 

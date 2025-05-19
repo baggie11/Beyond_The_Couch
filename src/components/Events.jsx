@@ -125,7 +125,7 @@ export default function EventsPage() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="relative py-20 overflow-hidden"
+        className="relative py-20"
       >
         <div className="relative max-w-6xl mx-auto px-4 flex flex-col items-center justify-center text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-[#5c6650] mb-4 mt-[70px]">Upcoming Events</h1>
@@ -177,10 +177,10 @@ export default function EventsPage() {
               key={event.id}
               variants={item}
               whileHover={{ y: -5 }}
-              className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full border border-gray-100"
+              className="flex flex-col bg-white rounded-2xl  shadow-lg hover:shadow-xl transition-all duration-300 h-full border border-gray-100"
             >
               {/* Event Header with Image */}
-              <div className="relative h-48 w-full overflow-hidden">
+              <div className="relative h-48 w-full">
                 <Image
                   src={event.image}
                   alt={event.title}

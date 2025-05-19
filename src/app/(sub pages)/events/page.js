@@ -11,17 +11,7 @@ export default function RolesAndNotes() {
     <div className="relative bg-gradient-to-b from-[#f9f5f8] to-[#f5fcf8]">
      
      
-       
-     <div className="absolute inset-0 overflow-hidden">
-  {/* Base gradient mesh */}
-  <div className="absolute inset-0 opacity-30" style={{background: `radial-gradient(...)`}}></div>
-  
-  {/* Pattern overlay */}
-  <div className="absolute inset-0 opacity-10" style={{backgroundImage: `url(...)`}}></div>
-  
-  {/* Subtle noise */}
-  <div className="absolute inset-0 opacity-05" style={{backgroundImage: `url("data:image/svg+xml,...noise...)`}}></div>
-</div>
+    
       
         
 

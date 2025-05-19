@@ -9,7 +9,7 @@ export default function RolesAndNotes() {
   return (
     <div className="relative min-h-screen">
       {/* Background Design */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 ">
         {/* Base Gradient */}
         <div 
           className="absolute inset-0 opacity-50"

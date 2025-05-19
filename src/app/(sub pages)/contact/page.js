@@ -9,7 +9,7 @@ export default function Contact() {
   return (
     <div className="relative bg-gradient-to-b from-[#f9f5f8] to-[#f5fcf8]">
      
-      <div className="absolute inset-0 overflow-hidden opacity-20">
+      <div className="absolute inset-0  opacity-20">
  
 </div>
        

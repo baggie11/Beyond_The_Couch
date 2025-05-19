@@ -174,7 +174,7 @@ function EventCard({ event, onMediaClick }) {
       className="w-full max-w-6xl mx-auto mb-8 sm:mb-12"
     >
       <div 
-        className={`group relative rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 ${isExpanded ? 'shadow-2xl' : 'shadow-lg hover:shadow-xl'}`}
+        className={`group relative rounded-2xl sm:rounded-3xl cursor-pointer transition-all duration-500 ${isExpanded ? 'shadow-2xl' : 'shadow-lg hover:shadow-xl'}`}
         onClick={() => setIsExpanded(!isExpanded)}
       >
         {/* Gradient border with theme colors */}

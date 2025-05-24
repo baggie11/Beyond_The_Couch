@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 import { Mail, User, MessageSquare, Send, Heart, Clock } from 'lucide-react';
-import emailjs from '@emailjs/browser';
+import { Toaster, toast } from 'react-hot-toast';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +10,6 @@ const ContactForm = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,40 +22,58 @@ const ContactForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitStatus(null);
 
     try {
-      // Initialize EmailJS (you should do this once in your app, maybe in a useEffect)
-      emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_USER_ID);
-
-      const response = await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message
-        }
-      );
-
-      if (response.status === 200) {
-        setSubmitStatus({
-          success: true,
-          message: `Thank you, ${formData.name}! We'll contact you soon.`
-        });
-        setFormData({
-          name: '',
-          email: '',
-          message: ''
-        });
-      } else {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) {
         throw new Error('Failed to send message');
       }
+
+      const data = await response.json();
+      
+      // Show success toast
+      toast.success(`Thank you, ${formData.name}! We'll contact you soon.`, {
+        duration: 5000,
+        position: 'bottom-center',
+        style: {
+          backgroundColor: '#f0fdf4',
+          color: '#166534',
+          border: '1px solid #bbf7d0',
+        },
+        iconTheme: {
+          primary: '#166534',
+          secondary: '#f0fdf4',
+        },
+      });
+
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        message: ''
+      });
+
     } catch (error) {
-      console.error('Error sending email:', error);
-      setSubmitStatus({
-        success: false,
-        message: 'Something went wrong. Please try again later.'
+      console.error('Error sending message:', error);
+      // Show error toast
+      toast.error('Something went wrong. Please try again later.', {
+        duration: 5000,
+        position: 'bottom-center',
+        style: {
+          backgroundColor: '#fef2f2',
+          color: '#b91c1c',
+          border: '1px solid #fecaca',
+        },
+        iconTheme: {
+          primary: '#b91c1c',
+          secondary: '#fef2f2',
+        },
       });
     } finally {
       setIsSubmitting(false);
@@ -65,6 +82,20 @@ const ContactForm = () => {
 
   return (
     <div className="relative overflow-hidden min-h-screen">
+      {/* Toast Container */}
+      <Toaster 
+        position="bottom-center"
+        toastOptions={{
+          className: '',
+          style: {
+            maxWidth: '500px',
+            padding: '16px',
+            margin: '0 auto',
+            zIndex: 999999,
+          },
+        }}
+      />
+
       {/* Enhanced Background */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         {/* Abstract watercolor background */}
@@ -151,13 +182,6 @@ const ContactForm = () => {
                   </div>
                 </div>
               </div>
-              
-              {/* Status Message */}
-              {submitStatus && (
-                <div className={`mb-6 p-4 rounded-lg ${submitStatus.success ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
-                  {submitStatus.message}
-                </div>
-              )}
                 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">

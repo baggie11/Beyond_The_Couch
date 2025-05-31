@@ -103,7 +103,7 @@ const ChatBot = () => {
   }, [messages]);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <div className="fixed bottom-20 right-6 z-50 flex flex-col items-end">
       <button 
         onClick={toggleChat}
         className="flex items-center justify-center w-16 h-16 rounded-full bg-[#fe89aa] hover:bg-[#e67899] text-white shadow-lg transform hover:scale-105 transition-all duration-300"

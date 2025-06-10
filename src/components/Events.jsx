@@ -6,7 +6,7 @@ import Image from 'next/image';
 export default function EventsPage() {
   const [selectedCity, setSelectedCity] = useState('All');
   
-  
+  //events list
   const events = [
     {
       id: 1,

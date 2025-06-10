@@ -9,75 +9,15 @@ export default function EventsPage() {
   const events = [
     {
       id: 1,
-      title: "Paint for Purpose: Tote Bag Painting",
-      description: "This is an artsy get together to commemorate the launch of BTC! All materials for the workshop such as tote bags, paints, etc will be provided by us. Bring your Pinterest boards to life here! Sign up now.",
-      date: "24th May",
-      time: "4pm onwards",
-      location: "Blindbakes Cafe, Hauz Khas",
-      city: "Delhi",
-      price: "₹250 per person",
-      link: "https://forms.gle/2kJKNP6NBPriBcts8",
-      image: "/images/events/tote1.jpg"
-    },
-    {
-      id: 2,
-      title: "Garden Party",
-      description: "This is a fun community potluck to share more about Beyond The Couch and our vision! All attendees will get an exclusive first look at our workshop kits and storybooks and also take them home with you.",
-      date: "25th May",
-      time: "11:30am onwards",
-      location: "Indira Gandhi Foundation Park, Bangalore",
-      city: "Bangalore",
-      price: "₹100 per person",
-      link: "https://docs.google.com/forms/d/e/1FAIpQLSdt6zUwzzQAuKqjU973JOxKfXhgShHtNKcbCdXgt5bPj_I1OA/viewform?usp=header",
-      image: "/images/events/garden.jpg"
-    },
-    {
-      id: 3,
-      title: "Tote Bag Painting Workshop",
-      description: "This is an artsy get together to commemorate the launch of BTC! All materials for the workshop such as tote bags, paints, etc will be provided by us. Bring your Pinterest boards to life here! Sign up now.",
-      date: "31st May",
-      time: "12:30pm onwards",
-      location: "Cafe Flynn, Khajaguda, Hyderabad",
-      city: "Hyderabad",
-      price: "₹250 per person",
-      link: "https://forms.gle/tEdqm5BWUPoadNXY6",
-      image: "/images/events/tote2.jpg"
-    },
-    {
-      id: 4,
-      title: "Khan Market Art and Bake Sale",
-      description: "Find us at Khan Market near Bahrisons Booksellers! Get ready for an immersive art and bake sale to support our cause! All attendees will also get an exclusive first look at our storybooks.",
-      date: "1st June",
-      time: "1pm onwards",
-      location: "Khan Market, Delhi",
-      city: "Delhi",
-      price: "Free Entry",
-      link: null,
-      image: "/images/events/artbake.jpg"
-    },
-    {
-      id: 5,
-      title: "Tote bag painting",
-      description: "This event is just another way to further our mission, but with an added bonus – take prettiest tote bags home with you! All proceeds from this event will go towards our donation drives. All materials, including tote bags and painting supplies, will be provided at the event.",
-      date: "8th June 2025",
-      time: "1:00 pm - 3:00 pm",
-      location: "The Story Cafe, Bangalore",
-      city: "Bangalore",
-      price: "₹250 per person",
-      link: "https://forms.gle/1xsapmjPSs6zStAm8",
-      image: "/images/events/tote3.jpg"
-    },
-    {
-      id: 6,
-      title: "Jewellery Making Event",
-      description: "All proceeds from this event will go towards our donation drives. All materials, including jewellery making supplies, will be provided at the event.",
-      date: "8th June, 2025",
-      time: "12:30 pm to 2:30 pm",
-      location: "Sector 7 Social, Chandigarh",
-      city: "Chandigarh",
-      price: "₹210 per person",
-      link: "https://forms.gle/XAtd4Fm8oe2qyuo48",
-      image: "/images/events/tote2.jpg"
+      title: "Echo: Love out Loud",
+      description: "Join us for Echo: Loud out Loud, an event to celebrate pride month right here in Noida! Look out for engaging activity stations, pop-ups, matchmaking games, live music, and so much more. Come as you are- we’re saving you a seat at the table of color, community, and self expression",
+      date: "21st June, 2025",
+      time: "5pm onwards",
+      location: "Flourmates Bakery & Cafe, Noida",
+      city: "Noida",
+      price: "₹150 per person",
+      link: "https://docs.google.com/forms/d/e/1FAIpQLSc246N52Z1CH4P4TpVfANK96zx_6wie6-C_oj6bhXXnEmTIkA/viewform",
+      image: "/images/newevent.jpg"
     }
   ];
 

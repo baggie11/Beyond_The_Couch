@@ -17,6 +17,7 @@ export default function Home() {
         <Button />
       </div>
       
+
       {/* Hero section that extends full height */}
       <div id = "home">
         <Hero />
